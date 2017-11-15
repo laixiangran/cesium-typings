@@ -1,0 +1,1 @@
+# Typescript definition for [Cesium v1.39](https://cesiumjs.org/)

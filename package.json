@@ -1,0 +1,28 @@
+{
+	"name": "cesium-typings",
+	"version": "1.0.0",
+	"description": "Typescript definition for Cesium v1.39",
+	"keywords": [
+		"cesium",
+		"typescript",
+		"angular"
+	],
+	"homepage": "https://github.com/laixiangran/cesium-typings#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/laixiangran/cesium-typings.git"
+	},
+	"author": {
+		"name": "赖祥燃",
+		"email": "laixiangran@163.com",
+		"bolg": "http://www.cnblogs.com/laixiangran",
+		"homepage": "http://www.laixiangran.cn"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/laixiangran/cesium-typings/issues"
+	},
+	"scripts": {
+		"release": "npm publish"
+	}
+}
