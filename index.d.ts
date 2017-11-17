@@ -3982,7 +3982,7 @@ declare module Cesium {
         static DEFAULT_VIEW_RECTANGLE: Rectangle;
         static DEFAULT_VIEW_FACTOR: number;
 
-        setView(): void;
+        setView(options: { destination?: Cartesian3 | Rectangle, orientation?: Object, endTransform?: Matrix4}): void;
 
         worldToCameraCoordinates(cartesian: Cartesian4, result?: Cartesian4): Cartesian4;
 
@@ -4373,9 +4373,9 @@ declare module Cesium {
 
         static fromQuaternion(quaternion: Quaternion, result?: HeadingPitchRoll): HeadingPitchRoll;
 
-        clone(result?: HeadingPitchRoll) : HeadingPitchRoll;
+        clone(result?: HeadingPitchRoll): HeadingPitchRoll;
 
-        equals(right?: HeadingPitchRoll) : boolean;
+        equals(right?: HeadingPitchRoll): boolean;
 
         equalsEpsilon(right?: HeadingPitchRoll, relativeEpsilon?: number, absoluteEpsilon?: number): boolean;
     }
