@@ -1,1 +1,1 @@
-# Typescript definition for [Cesium v1.39](https://cesiumjs.org/)
+# Typescript definition for [Cesium](https://cesiumjs.org/) v1.39
