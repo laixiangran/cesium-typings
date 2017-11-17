@@ -478,7 +478,7 @@ declare module Cesium {
         evaluate(time: number, result?: Cartesian3): Cartesian3;
     }
 
-    class CesiumTerrainProvider {
+    class CesiumTerrainProvider extends TerrainProvider {
         errorEvent: Event;
         credit: Credit;
         tilingScheme: GeographicTilingScheme;
@@ -490,7 +490,7 @@ declare module Cesium {
 
         constructor(options: { url: string; proxy?: Proxy; requestVertexNormals?: boolean; requestWaterMask?: boolean; ellipsoid?: Ellipsoid; credit?: Credit | string });
 
-        requestTileGeometry(x: number, y: number, level: number, throttleRequests?: boolean): Promise<TerrainData>;
+        requestTileGeometry(x: number, y: number, level: number, request: Request): Promise<TerrainData>;
 
         getLevelMaximumGeometricError(level: number): number;
 
