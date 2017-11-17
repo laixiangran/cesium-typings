@@ -1,6 +1,6 @@
 {
 	"name": "cesium-typings",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Typescript definition for Cesium v1.39",
 	"keywords": [
 		"cesium",
