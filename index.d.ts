@@ -4347,13 +4347,37 @@ declare module Cesium {
     }
 
     class HeadingPitchRange {
+
+        constructor(heading?: number, pitch?: number, roll?: number);
+
+        static clone(hpr: HeadingPitchRange, result?: HeadingPitchRange): HeadingPitchRange;
+    }
+
+
+    class HeadingPitchRoll {
         heading: number;
         pitch: number;
         range: number;
 
         constructor(heading?: number, pitch?: number, range?: number);
 
-        static clone(hpr: HeadingPitchRange, result?: HeadingPitchRange): HeadingPitchRange;
+        toString(): string;
+
+        static clone(headingPitchRoll: HeadingPitchRoll, result?: HeadingPitchRoll): HeadingPitchRoll;
+
+        static equals(left?: HeadingPitchRoll, right?: HeadingPitchRoll): boolean;
+
+        static equalsEpsilon(left?: HeadingPitchRoll, right?: HeadingPitchRoll, relativeEpsilon?: number, absoluteEpsilon?: number): boolean;
+
+        static fromDegrees(heading: number, pitch: number, roll: number, result?: HeadingPitchRoll): HeadingPitchRoll;
+
+        static fromQuaternion(quaternion: Quaternion, result?: HeadingPitchRoll): HeadingPitchRoll;
+
+        clone(result?: HeadingPitchRoll) : HeadingPitchRoll;
+
+        equals(right?: HeadingPitchRoll) : boolean;
+
+        equalsEpsilon(right?: HeadingPitchRoll, relativeEpsilon?: number, absoluteEpsilon?: number): boolean;
     }
 
     class ImageryLayer {
