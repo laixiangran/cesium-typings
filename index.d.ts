@@ -4430,7 +4430,7 @@ declare module Cesium {
     class HeadingPitchRoll {
         heading: number;
         pitch: number;
-        range: number;
+        roll: number;
 
         constructor(heading?: number, pitch?: number, range?: number);
 
