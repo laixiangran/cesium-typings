@@ -3952,6 +3952,40 @@ declare module Cesium {
         static defaultKey: string;
     }
 
+    class EasingFunction {
+        static BACK_IN: Function;
+        static BACK_IN_OUT: Function;
+        static BACK_OUT: Function;
+        static BOUNCE_IN: Function;
+        static BOUNCE_IN_OUT: Function;
+        static BOUNCE_OUT: Function;
+        static CIRCULAR_IN: Function;
+        static CIRCULAR_IN_OUT: Function;
+        static CIRCULAR_OUT: Function;
+        static CUBIC_IN: Function;
+        static CUBIC_IN_OUT: Function;
+        static CUBIC_OUT: Function;
+        static ELASTIC_IN: Function;
+        static ELASTIC_IN_OUT: Function;
+        static ELASTIC_OUT: Function;
+        static EXPONENTIAL_IN: Function;
+        static EXPONENTIAL_IN_OUT: Function;
+        static EXPONENTIAL_OUT: Function;
+        static LINEAR_NONE: Function;
+        static QUADRACTIC_IN: Function;
+        static QUADRACTIC_IN_OUT: Function;
+        static QUADRACTIC_OUT: Function;
+        static QUARTIC_IN: Function;
+        static QUARTIC_IN_OUT: Function;
+        static QUARTIC_OUT: Function;
+        static QUINTIC_IN: Function;
+        static QUINTIC_IN_OUT: Function;
+        static QUINTIC_OUT: Function;
+        static SINUSOIDAL_IN: Function;
+        static SINUSOIDAL_IN_OUT: Function;
+        static SINUSOIDAL_OUT: Function;
+    }
+
     class Camera {
         position: Cartesian3;
         direction: Cartesian3;
@@ -3979,8 +4013,13 @@ declare module Cesium {
         roll: number;
         moveStart: Event;
         moveEnd: Event;
+        changed: Event;
+        percentageChanged: number;
+        static DEFAULT_OFFSET: HeadingPitchRange;
         static DEFAULT_VIEW_RECTANGLE: Rectangle;
         static DEFAULT_VIEW_FACTOR: number;
+
+        constructor(scene: Scene);
 
         setView(options: { destination?: Cartesian3 | Rectangle, orientation?: Object, endTransform?: Matrix4}): void;
 
@@ -4046,19 +4085,53 @@ declare module Cesium {
 
         getRectangleCameraCoordinates(rectangle: Rectangle, result?: Cartesian3): Cartesian3;
 
-        computeViewRectangle(ellipsoid?: Ellipsoid, result?: Rectangle): Rectangle;
+        computeViewRectangle(ellipsoid?: Ellipsoid, result?: Rectangle): Rectangle | undefined;
 
         pickEllipsoid(windowPosition: Cartesian2, ellipsoid?: Ellipsoid, result?: Cartesian3): Cartesian3;
 
         getPickRay(windowPosition: Cartesian2, result?: Ray): any;
 
-        flyTo(options: { destination: Cartesian3 | Rectangle; orientation?: any; duration?: number; complete?: () => void; cancel?: () => void; endTransform?: Matrix4; convert?: boolean }): void;
+        flyTo(options: {
+            destination: Cartesian3 | Rectangle;
+            orientation?: any;
+            duration?: number;
+            complete?: () => void;
+            cancel?: () => void;
+            endTransform?: Matrix4;
+            easingFunction?: EasingFunction;
+            maximumHeight?: number;
+            pitchAdjustHeight?: number;
+            flyOverLongitude?: number;
+            flyOverLongitudeWeight?: number
+        }): void;
 
         viewBoundingSphere(boundingSphere: BoundingSphere, offset?: HeadingPitchRange): void;
 
-        flyToBoundingSphere(boundingSphere: BoundingSphere, options?: { duration?: number; offset?: HeadingPitchRange; complete?: () => void; cancel?: () => void; endTransform?: Matrix4 }): void;
+        flyToBoundingSphere(boundingSphere: BoundingSphere, options?: {
+            duration?: number;
+            offset?: HeadingPitchRange;
+            complete?: () => void;
+            cancel?: () => void;
+            endTransform?: Matrix4;
+            easingFunction?: EasingFunction;
+            maximumHeight?: number;
+            pitchAdjustHeight?: number;
+            flyOverLongitude?: number;
+            flyOverLongitudeWeight?: number
+        }): void;
 
         clone(): Camera;
+
+        cancelFlight(): void;
+
+        distanceToBoundingSphere(boundingSphere: BoundingSphere): number;
+
+        flyHome(duration?: number): void;
+
+        switchToOrthographicFrustum(): void;
+
+        switchToPerspectiveFrustum(): void;
+
     }
 
     class CameraEventAggregator {
