@@ -353,6 +353,8 @@ declare module Cesium {
         getValue(time: JulianDate, result?: Cartesian3): Cartesian3;
 
         getValueInReferenceFrame(time: JulianDate, referenceFrame: ReferenceFrame, result?: Cartesian3): Cartesian3;
+
+        setInterpolationOptions(options?: { interpolationAlgorithm?: InterpolationAlgorithm; interpolationDegree?: number }): void;
     }
 
     class Cartesian4 {
@@ -488,13 +490,91 @@ declare module Cesium {
         requestVertexNormals: boolean;
         requestWaterMask: boolean;
 
-        constructor(options: { url: string; proxy?: Proxy; requestVertexNormals?: boolean; requestWaterMask?: boolean; ellipsoid?: Ellipsoid; credit?: Credit | string });
+        constructor(options: {
+            url: string;
+            proxy?: Proxy;
+            requestVertexNormals?: boolean;
+            requestWaterMask?: boolean;
+            ellipsoid?: Ellipsoid;
+            credit?: Credit | string;
+        });
 
         requestTileGeometry(x: number, y: number, level: number, request: Request): Promise<TerrainData>;
 
         getLevelMaximumGeometricError(level: number): number;
 
         getTileDataAvailable(x: number, y: number, level: number): boolean;
+    }
+
+    class Cesium3DTileset {
+        readonly url: string;
+        show: boolean;
+        modelMatrix: Matrix4;
+        shadows: ShadowMode;
+        maximumScreenSpaceError: number;
+        maximumMemoryUsage: number;
+        cullWithChildrenBounds: boolean;
+        dynamicScreenSpaceError: boolean;
+        dynamicScreenSpaceErrorDensity: number;
+        dynamicScreenSpaceErrorFactor: number;
+        dynamicScreenSpaceErrorHeightFalloff: number;
+        skipLevelOfDetail: boolean;
+        baseScreenSpaceError: number;
+        skipScreenSpaceErrorFactor: number;
+        skipLevels: number;
+        immediatelyLoadDesiredLevelOfDetail: boolean;
+        loadSiblings: boolean;
+        debugFreezeFrame: boolean;
+        debugColorizeTiles: boolean;
+        debugWireframe: boolean;
+        debugShowBoundingVolume: boolean;
+        debugShowContentBoundingVolume: boolean;
+        debugShowViewerRequestVolume: boolean;
+        debugShowGeometricError: boolean;
+        debugShowRenderingStatistics: boolean;
+        debugShowMemoryUsage: boolean;
+        debugShowUrl: boolean;
+
+        constructor(options: {
+            url: string;
+            show?: boolean;
+            modelMatrix?: Matrix4;
+            shadows?: ShadowMode;
+            maximumScreenSpaceError?: number;
+            maximumMemoryUsage?: number;
+            cullWithChildrenBounds?: boolean;
+            dynamicScreenSpaceError?: boolean;
+            dynamicScreenSpaceErrorDensity?: number;
+            dynamicScreenSpaceErrorFactor?: number;
+            dynamicScreenSpaceErrorHeightFalloff?: number;
+            skipLevelOfDetail?: boolean;
+            baseScreenSpaceError?: number;
+            skipScreenSpaceErrorFactor?: number;
+            skipLevels?: number;
+            immediatelyLoadDesiredLevelOfDetail?: boolean;
+            loadSiblings?: boolean;
+            debugFreezeFrame?: boolean;
+            debugColorizeTiles?: boolean;
+            debugWireframe?: boolean;
+            debugShowBoundingVolume?: boolean;
+            debugShowContentBoundingVolume?: boolean;
+            debugShowViewerRequestVolume?: boolean;
+            debugShowGeometricError?: boolean;
+            debugShowRenderingStatistics?: boolean;
+            debugShowMemoryUsage?: boolean;
+            debugShowUrl?: boolean;
+        });
+    }
+
+    class Cesium3DTileStyle {
+        constructor(style?: string | Object);
+    }
+
+    class ShadowMode {
+        static CAST_ONLY: number;
+        static DISABLED: number;
+        static ENABLED: number;
+        static RECEIVE_ONLY: number;
     }
 
     class CircleGeometry {
@@ -828,6 +908,21 @@ declare module Cesium {
         stack: string;
 
         constructor(message?: string);
+    }
+
+    class DistanceDisplayCondition {
+        near: number;
+        far: number;
+
+        constructor(near?: number, far?: number);
+
+        clone(result?: DistanceDisplayCondition): DistanceDisplayCondition;
+
+        equals(other: DistanceDisplayCondition): boolean;
+
+        static clone(value?: DistanceDisplayCondition, result?: DistanceDisplayCondition): DistanceDisplayCondition;
+
+        static equals(left: DistanceDisplayCondition, right: DistanceDisplayCondition): boolean;
     }
 
     class EllipseGeometry {
@@ -2292,23 +2387,27 @@ declare module Cesium {
     }
 
     class BillboardGraphics {
-        definitionChanged: Event;
-        image: Property;
-        imageSubRegion: Property;
-        scale: Property;
-        rotation: Property;
-        alignedAxis: Property;
-        horizontalOrigin: Property;
-        verticalOrigin: Property;
-        color: Property;
-        eyeOffset: Property;
-        pixelOffset: Property;
-        show: Property;
-        width: Property;
-        height: Property;
-        scaleByDistance: Property;
-        translucencyByDistance: Property;
-        pixelOffsetScaleByDistance: Property;
+        readonly definitionChanged: Event;
+        disableDepthTestDistance: Property | any;
+        distanceDisplayCondition: Property | any;
+        heightReference: Property | any;
+        sizeInMeters: Property | any;
+        image: Property | any;
+        imageSubRegion: Property | any;
+        scale: Property | any;
+        rotation: Property | any;
+        alignedAxis: Property | any;
+        horizontalOrigin: Property | any;
+        verticalOrigin: Property | any;
+        color: Property | any;
+        eyeOffset: Property | any;
+        pixelOffset: Property | any;
+        show: Property | any;
+        width: Property | any;
+        height: Property | any;
+        scaleByDistance: Property | any;
+        translucencyByDistance: Property | any;
+        pixelOffsetScaleByDistance: Property | any;
 
         constructor(options?: BillboardGraphicsOptions);
 
@@ -2646,7 +2745,7 @@ declare module Cesium {
         merge(source: CylinderGraphics): void;
     }
 
-    class CzmlDataSource {
+    class CzmlDataSource extends DataSource {
         name: string;
         clock: DataSourceClock;
         entities: EntityCollection;
@@ -2872,7 +2971,7 @@ declare module Cesium {
         box: BoxGraphics;
         corridor: CorridorGraphics;
         cylinder: CylinderGraphics;
-        description: Property;
+        description: Property | any;
         ellipse: EllipseGraphics;
         ellipsoid: EllipsoidGraphics;
         entityCollection: EntityCollection;
@@ -3017,8 +3116,27 @@ declare module Cesium {
 
         constructor(name?: string);
 
-        load(data: string | any, options?: { sourceUri?: string; markerSize?: number; markerSymbol?: string; markerColor?: Color; stroke?: Color; strokeWidth?: number; fill?: Color }): Promise<GeoJsonDataSource>;
-        static load(data: string | any, options?: { sourceUri?: string; markerSize?: number; markerSymbol?: string; markerColor?: Color; stroke?: Color; strokeWidth?: number; fill?: Color }): Promise<GeoJsonDataSource>;
+        load(data: string | any, options?: {
+            sourceUri?: string;
+            markerSize?: number;
+            markerSymbol?: string;
+            markerColor?: Color;
+            stroke?: Color;
+            strokeWidth?: number;
+            fill?: Color;
+            clampToGround?: boolean;
+        }): Promise<GeoJsonDataSource>;
+        static load(data: string | any, options?: {
+            sourceUri?: string;
+            describe?: (properties: Object, nameProperty: string) => void;
+            markerSize?: number;
+            markerSymbol?: string;
+            markerColor?: Color;
+            stroke?: Color;
+            strokeWidth?: number;
+            fill?: Color;
+            clampToGround?: boolean;
+        }): Promise<GeoJsonDataSource>;
     }
 
     class GeometryUpdater {
@@ -3133,7 +3251,10 @@ declare module Cesium {
     }
 
     class LabelGraphics {
-        definitionChanged: Event;
+        readonly definitionChanged: Event;
+        showBackground: Property | boolean;
+        distanceDisplayCondition: Property | any;
+        disableDepthTestDistance: Property | any;
         text: Property;
         font: Property;
         style: Property;
@@ -3166,7 +3287,7 @@ declare module Cesium {
         outlineWidth?: Property | number;
         show?: Property | boolean;
         showBackground?: Property | boolean;
-        scale?: Property | NearFarScalar;
+        scale?: Property | NearFarScalar | any;
         scaleByDistance?: Property | NearFarScalar;
         horizontalOrigin?: Property | HorizontalOrigin;
         verticalOrigin?: Property | VerticalOrigin;
@@ -3174,6 +3295,8 @@ declare module Cesium {
         pixelOffset?: Property | Cartesian2;
         translucencyByDistance?: Property | NearFarScalar;
         pixelOffsetScaleByDistance?: Property | NearFarScalar;
+        distanceDisplayCondition?: Property | DistanceDisplayCondition;
+        disableDepthTestDistance?: Property | number;
     }
 
     class LabelVisualizer {
@@ -3198,13 +3321,14 @@ declare module Cesium {
     }
 
     class ModelGraphics {
-        definitionChanged: Event;
-        show: Property;
-        scale: Property;
-        minimumPixelSize: Property;
-        uri: Property;
+        readonly definitionChanged: Event;
+        show: Property | boolean;
+        scale: Property | number;
+        minimumPixelSize: Property | number;
+        uri: Property | string;
+        maximumScale: Property | number;
 
-        constructor(options?: { uri?: Property; show?: Property; scale?: Property; minimumPixelSize?: Property });
+        constructor(options?: { uri?: Property | string; show?: Property; scale?: Property | number; minimumPixelSize?: Property | number; maximumScale: Property | number });
 
         clone(result?: ModelGraphics): ModelGraphics;
 
@@ -3502,8 +3626,8 @@ declare module Cesium {
     }
 
     interface PositionProperty {
-        isConstant: boolean;
-        definitionChanged: Event;
+        readonly isConstant: boolean;
+        readonly definitionChanged: Event;
         referenceFrame: ReferenceFrame;
 
         equals(other: any): boolean;
@@ -3511,6 +3635,8 @@ declare module Cesium {
         getValue(time: JulianDate, result?: Cartesian3): Cartesian3;
 
         getValueInReferenceFrame(time: JulianDate, referenceFrame: ReferenceFrame, result?: Cartesian3): Cartesian3;
+
+        setInterpolationOptions(options?: { interpolationAlgorithm?: InterpolationAlgorithm; interpolationDegree?: number }): void;
     }
 
     class PositionPropertyArray {
@@ -4021,7 +4147,7 @@ declare module Cesium {
 
         constructor(scene: Scene);
 
-        setView(options: { destination?: Cartesian3 | Rectangle, orientation?: Object, endTransform?: Matrix4}): void;
+        setView(options: { destination?: Cartesian3 | Rectangle, orientation?: Object, endTransform?: Matrix4 }): void;
 
         worldToCameraCoordinates(cartesian: Cartesian4, result?: Cartesian4): Cartesian4;
 
