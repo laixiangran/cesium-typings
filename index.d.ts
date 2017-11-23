@@ -6431,7 +6431,7 @@ declare module Cesium {
         function interpolateOrderZero(x: number, xTable: number[], yTable: number[], yStride: number, result?: number[]): number[];
     }
 
-    class CesiumMath {
+    class Math {
         static EPSILON1: number;
         static EPSILON2: number;
         static EPSILON3: number;
@@ -6470,7 +6470,7 @@ declare module Cesium {
         static RADIANS_PER_ARCSECOND: number;
     }
 
-    module CesiumMath {
+    module Math {
         function sign(value: number): number;
 
         function signNotZero(value: number): number;
