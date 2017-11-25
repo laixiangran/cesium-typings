@@ -950,35 +950,45 @@ declare module Cesium {
     }
 
     class Ellipsoid {
+        static MOON: Ellipsoid;
+        static packedLength: number;
+        static UNIT_SPHERE: Ellipsoid;
+        static WGS84: Ellipsoid;
+        minimumRadius: number;
+        maximumRadius: number;
+        oneOverRadii: Cartesian3;
+        oneOverRadiiSquared: Cartesian3;
         radii: Cartesian3;
         radiiSquared: Cartesian3;
         radiiToTheFourth: Cartesian3;
-        oneOverRadii: Cartesian3;
-        oneOverRadiiSquared: Cartesian3;
-        minimumRadius: number;
-        maximumRadius: number;
-        static WGS84: Ellipsoid;
-        static UNIT_SPHERE: Ellipsoid;
-        static MOON: Ellipsoid;
-        static packedLength: number;
 
         constructor(x?: number, y?: number, z?: number);
 
+        static clone(ellipsoid: Ellipsoid, result?: Ellipsoid): Ellipsoid;
+
+        static fromCartesian3(radii?: Cartesian3): Ellipsoid;
+
+        static pack(value: any, array: number[], startingIndex?: number): number[];
+
+        static unpack(array: number[], startingIndex?: number, result?: Ellipsoid): Ellipsoid;
+
+        cartesianArrayToCartographicArray(cartesians: Cartesian3[], result?: Cartographic[]): Cartographic[];
+
+        cartesianToCartographic(cartesian: Cartesian3, result?: Cartographic): Cartographic;
+
+        cartographicArrayToCartesianArray(cartographics: Cartographic[], result?: Cartesian3[]): Cartesian3[];
+
+        cartographicToCartesian(cartographic: Cartographic, result?: Cartesian3): Cartesian3;
+
         clone(result?: Ellipsoid): Ellipsoid;
+
+        equals(right?: Ellipsoid): boolean;
 
         geocentricSurfaceNormal(cartesian: Cartesian3, result?: Cartesian3): Cartesian3;
 
         geodeticSurfaceNormalCartographic(cartographic: Cartographic, result?: Cartesian3): Cartesian3;
 
         geodeticSurfaceNormal(cartesian: Cartesian3, result?: Cartesian3): Cartesian3;
-
-        cartographicToCartesian(cartographic: Cartographic, result?: Cartesian3): Cartesian3;
-
-        cartographicArrayToCartesianArray(cartographics: Cartographic[], result?: Cartesian3[]): Cartesian3[];
-
-        cartesianToCartographic(cartesian: Cartesian3, result?: Cartographic): Cartographic;
-
-        cartesianArrayToCartographicArray(cartesians: Cartesian3[], result?: Cartographic[]): Cartographic[];
 
         scaleToGeodeticSurface(cartesian: Cartesian3, result?: Cartesian3): Cartesian3;
 
@@ -988,17 +998,9 @@ declare module Cesium {
 
         transformPositionFromScaledSpace(position: Cartesian3, result?: Cartesian3): Cartesian3;
 
-        equals(right?: Ellipsoid): boolean;
+        getSurfaceNormalIntersectionWithZAxis(position: Cartesian3, buffer: number, result: Cartesian3): Cartesian3;
 
         toString(): string;
-
-        static clone(ellipsoid: Ellipsoid, result?: Ellipsoid): Ellipsoid;
-
-        static fromCartesian3(radii?: Cartesian3): Ellipsoid;
-
-        static pack(value: any, array: number[], startingIndex?: number): number[];
-
-        static unpack(array: number[], startingIndex?: number, result?: Ellipsoid): Ellipsoid;
     }
 
     class EllipsoidGeodesic {
@@ -4424,22 +4426,22 @@ declare module Cesium {
     }
 
     class Globe {
-        terrainProvider: TerrainProvider;
-        terrainProviderChanged: Event;
-        northPoleColor: Cartesian3;
-        southPoleColor: Cartesian3;
-        show: boolean;
-        oceanNormalMapUrl: string;
-        depthTestAgainstTerrain: boolean;
-        maximumScreenSpaceError: number;
-        tileCacheSize: number;
-        enableLighting: boolean;
-        lightingFadeOutDistance: number;
-        lightingFadeInDistance: number;
-        showWaterEffect: boolean;
-        ellipsoid: Ellipsoid;
-        imageryLayers: ImageryLayerCollection;
         baseColor: Color;
+        depthTestAgainstTerrain: boolean;
+        ellipsoid: Ellipsoid;
+        enableLighting: boolean;
+        imageryLayers: ImageryLayerCollection;
+        lightingFadeInDistance: number;
+        lightingFadeOutDistance: number;
+        maximumScreenSpaceError: number;
+        oceanNormalMapUrl: string;
+        shadows: ShadowMode;
+        show: boolean;
+        showWaterEffect: boolean;
+        terrainProvider: TerrainProvider;
+        readonly terrainProviderChanged: Event;
+        tileCacheSize: number;
+        tileLoadProgressEvent: Event;
 
         constructor(ellipsoid?: Ellipsoid);
 
@@ -5229,6 +5231,12 @@ declare module Cesium {
         screenSpaceErrorFactor: number;
     }
 
+    class MapMode2D {
+        static INFINITE_SCROLL: number
+    ,
+        static ROTATE: number
+    }
+
     class Scene {
         backgroundColor: Color;
         readonly camera: Camera;
@@ -5238,18 +5246,23 @@ declare module Cesium {
         readonly debugFrustumStatistics: any;
         debugShowCommands: boolean;
         debugShowFramesPerSecond: boolean;
+        debugShowFrustumPlanes: boolean;
         debugShowFrustums: boolean;
+        debugShowGlobeDepth: boolean;
         readonly drawingBufferHeight: number;
         readonly drawingBufferWidth: number;
+        eyeSeparation: number;
         farToNearRatio: number;
+        focalLength: number;
         fog: Fog;
         fxaa: boolean;
-        fxaaOrderIndependentTranslucency: boolean;
         globe: Globe;
         readonly groundPrimitives: PrimitiveCollection;
         readonly id: string;
         readonly imageryLayers: ImageryLayerCollection;
         imagerySplitPosition: number;
+        invertClassification: boolean;
+        invertClassificationColor: Color;
         mapMode2D: boolean;
         readonly mapProjection: MapProjection;
         readonly maximumAliasedLineWidth: number;
@@ -5260,6 +5273,7 @@ declare module Cesium {
         morphComplete: Event;
         morphStart: Event;
         morphTime: number;
+        nearToFarDistance2D: number;
         nearToFarDistance2D: number;
         readonly orderIndependentTranslucency: boolean;
         readonly pickPositionSupported: boolean;
@@ -5276,12 +5290,23 @@ declare module Cesium {
         skyBox: SkyBox;
         sun: Sun;
         sunBloom: boolean;
+        terrainExaggeration: number;
         terrainProvider: TerrainProvider;
         readonly terrainProviderChanged: Event;
         useDepthPicking: boolean;
         useWebVR: boolean;
 
-        constructor(options?: { canvas: HTMLCanvasElement; contextOptions?: any; creditContainer?: Element; mapProjection?: MapProjection; orderIndependentTranslucency?: boolean; scene3DOnly?: boolean });
+        constructor(options?: {
+            canvas: HTMLCanvasElement;
+            contextOptions?: any;
+            creditContainer?: Element;
+            mapProjection?: MapProjection;
+            orderIndependentTranslucency?: boolean;
+            scene3DOnly?: boolean,
+            terrainExaggeration?: number,
+            shadows?: boolean,
+            mapMode2D?: MapMode2D
+        });
 
         cartesianToCanvasCoordinates(position: Cartesian3, result?: Cartesian2): Cartesian2;
 
@@ -5387,8 +5412,11 @@ declare module Cesium {
     }
 
     class SkyAtmosphere {
+        brightnessShift: number;
+        hueShift: number;
+        saturationShift: number;
         show: boolean;
-        ellipsoid: Ellipsoid;
+        readonly ellipsoid: Ellipsoid;
 
         constructor(ellipsoid?: Ellipsoid);
 
@@ -6008,9 +6036,37 @@ declare module Cesium {
         constructor(command: Command, options?: { toggled?: boolean; tooltip?: string });
     }
 
-    class Viewer {
-        constructor(container: Element | string, options?: ViewerOptions);
+    class ProjectionPicker {
+        container: Element;
+        viewModel: ProjectionPickerViewModel;
 
+        constructor(container: Element | String, scene: Scene);
+
+        destroy(): void;
+
+        isDestroyed(): boolean;
+    }
+
+    class ProjectionPickerViewModel {
+        dropDownVisible: boolean;
+        isOrthographicProjection: Command;
+        scene: Scene;
+        sceneMode: SceneMode;
+        selectedTooltip: String;
+        switchToOrthographic: Command;
+        switchToPerspective: Command;
+        toggleDropDown: Command;
+        tooltipOrthographic: String;
+        tooltipPerspective: String;
+
+        constructor(scene: Scene);
+
+        destroy(): void;
+
+        isDestroyed(): boolean;
+    }
+
+    class Viewer {
         allowDataSourcesToSuspendAnimation: boolean;
         readonly animation: Animation;
         readonly baseLayerPicker: BaseLayerPicker;
@@ -6032,6 +6088,7 @@ declare module Cesium {
         readonly imageryLayers: ImageryLayerCollection;
         readonly infoBox: InfoBox;
         readonly navigationHelpButton: NavigationHelpButton;
+        readonly projectionPicker: ProjectionPicker;
         resolutionScale: number;
         readonly scene: Scene;
         readonly sceneModePicker: SceneModePicker;
@@ -6050,12 +6107,14 @@ declare module Cesium {
         useDefaultRenderLoop: boolean;
         readonly vrButton: VRButton;
 
+        constructor(container: Element | string, options?: ViewerOptions);
+
         destroy(): void;
 
         extend(mixin: Viewer.ViewerMixin, options: any): void;
 
         flyTo(target: Entity | Entity[] | EntityCollection | DataSource | ImageryLayer | Promise<Entity | Entity[] | EntityCollection | DataSource | ImageryLayer>,
-              options?: { duration?: number; offset?: HeadingPitchRange }): Promise<boolean>;
+              options?: { duration?: number; maximumHeight?: number; offset?: HeadingPitchRange }): Promise<boolean>;
 
         forceResize(): void;
 
@@ -6074,38 +6133,44 @@ declare module Cesium {
 
     class ViewerOptions {
         animation?: boolean;
-        automaticallyTrackDataSourceClocks?: boolean;
         baseLayerPicker?: boolean;
-        clockViewModel?: ClockViewModel;
-        contextOptions?: any;
-        creditContainer?: Element | string;
-        dataSources?: DataSourceCollection;
         fullscreenButton?: boolean;
-        fullscreenElement?: Element | string;
-        geocoder?: boolean | GeocoderService[];
-        globe?: Globe;
+        vrButton?: boolean;
+        geocoder?: boolean;
         homeButton?: boolean;
-        imageryProvider?: ImageryProvider;
-        imageryProviderViewModels?: ProviderViewModel[];
         infoBox?: boolean;
-        mapProjection?: MapProjection;
+        sceneModePicker?: boolean;
+        selectionIndicator?: boolean;
+        timeline?: boolean;
         navigationHelpButton?: boolean;
         navigationInstructionsInitiallyVisible?: boolean;
-        orderIndependentTranslucency?: boolean;
         scene3DOnly?: boolean;
-        sceneMode?: SceneMode;
-        sceneModePicker?: boolean;
+        clockViewModel?: ClockViewModel;
         selectedImageryProviderViewModel?: ProviderViewModel;
+        imageryProviderViewModels?: ProviderViewModel[];
         selectedTerrainProviderViewModel?: ProviderViewModel;
-        selectionIndicator?: boolean;
-        showRenderLoopErrors?: boolean;
-        skyAtmosphere?: SkyAtmosphere;
-        skyBox?: SkyBox;
-        targetFrameRate?: number;
-        terrainProvider?: TerrainProvider;
         terrainProviderViewModels?: ProviderViewModel[];
-        timeline?: boolean;
+        imageryProvider?: ImageryProvider;
+        terrainProvider?: TerrainProvider;
+        skyBox?: SkyBox;
+        skyAtmosphere?: SkyAtmosphere;
+        fullscreenElement?: Element | string;
         useDefaultRenderLoop?: boolean;
+        targetFrameRate?: number;
+        showRenderLoopErrors?: boolean;
+        automaticallyTrackDataSourceClocks?: boolean;
+        contextOptions?: any;
+        sceneMode?: SceneMode;
+        mapProjection?: MapProjection;
+        globe?: Globe;
+        orderIndependentTranslucency?: boolean;
+        creditContainer?: Element | string;
+        dataSources?: DataSourceCollection;
+        terrainExaggeration?: number;
+        shadows?: boolean;
+        terrainShadows?: ShadowMode;
+        mapMode2D?: MapMode2D;
+        projectionPicker?: boolean;
     }
 
     class VRButton {
