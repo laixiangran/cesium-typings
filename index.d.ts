@@ -5232,9 +5232,8 @@ declare module Cesium {
     }
 
     class MapMode2D {
-        static INFINITE_SCROLL: number
-    ,
-        static ROTATE: number
+        static INFINITE_SCROLL: number;
+        static ROTATE: number;
     }
 
     class Scene {
