@@ -4797,27 +4797,82 @@ declare module Cesium {
     }
 
     class Model {
-        show: boolean;
-        modelMatrix: Matrix4;
-        scale: number;
-        minimumPixelSize: number;
-        id: any;
         activeAnimations: ModelAnimationCollection;
+        readonly allowPicking: boolean;
+        readonly readonlyasynchronous: boolean;
+        readonly basePath: string;
+        readonly boundingSphere: BoundingSphere;
+        clampAnimations: boolean;
+        color: Color;
+        colorBlendAmount: number;
+        colorBlendMode: ColorBlendMode;
         debugShowBoundingVolume: boolean;
         debugWireframe: boolean;
-        gltf: any;
-        basePath: string;
-        boundingSphere: BoundingSphere;
-        ready: boolean;
-        readyPromise: Promise<Model>;
-        asynchronous: boolean;
-        allowPicking: boolean;
+        readonly gltf: any;
+        id: any;
+        readonly incrementallyLoadTextures: boolean;
+        maximumScale: number;
+        minimumPixelSize: number;
+        modelMatrix: Matrix4;
+        readonly pendingTextureLoads: number;
+        readonly ready: boolean;
+        readonly readyPromise: Promise<Model>;
+        scale: number;
+        shadows: ShadowMode;
+        show: boolean;
+        silhouetteColor: Color;
+        silhouetteSize: number;
 
-        constructor(options?: { gltf?: any; basePath?: string; show?: boolean; modelMatrix?: Matrix4; scale?: number; minimumPixelSize?: number; id?: any; allowPicking?: boolean; asynchronous?: boolean; debugShowBoundingVolume?: boolean; debugWireframe?: boolean });
+        constructor(options?: {
+            gltf?: any;
+            basePath?: string;
+            show?: boolean;
+            modelMatrix?: Matrix4;
+            scale?: number;
+            minimumPixelSize?: number;
+            maximumScale?: number;
+            id?: any;
+            allowPicking?: boolean;
+            incrementallyLoadTextures?: boolean;
+            asynchronous?: boolean;
+            clampAnimations?: boolean;
+            shadows?: ShadowMode;
+            debugShowBoundingVolume?: boolean;
+            debugWireframe?: boolean;
+            heightReference?: HeightReference;
+            scene?: Scene;
+            distanceDisplayCondition?: DistanceDisplayCondition;
+            color?: Color;
+            colorBlendMode?: ColorBlendMode;
+            colorBlendAmount?: number;
+            silhouetteColor?: Color;
+            silhouetteSize?: number;
+        });
 
-        getNode(name: string): ModelNode;
+        static fromGltf(options?: {
+            url?: string;
+            headers?: any;
+            basePath?: string;
+            show?: boolean;
+            modelMatrix?: Matrix4;
+            scale?: number;
+            minimumPixelSize?: number;
+            maximumScale?: number;
+            id?: any;
+            allowPicking?: boolean;
+            incrementallyLoadTextures?: boolean;
+            asynchronous?: boolean;
+            clampAnimations?: boolean;
+            shadows?: ShadowMode;
+            debugShowBoundingVolume?: boolean;
+            debugWireframe?: boolean;
+        }): Model;
+
+        static silhouetteSupported(scene: Scene): boolean;
 
         getMesh(name: string): ModelMesh;
+
+        getNode(name: string): ModelNode;
 
         getMaterial(name: string): ModelMaterial;
 
@@ -4826,9 +4881,9 @@ declare module Cesium {
         isDestroyed(): boolean;
 
         destroy(): void;
-
-        static fromGltf(options: { url: string; headers?: any; show?: boolean; modelMatrix?: Matrix4; scale?: number; minimumPixelSize?: number; allowPicking?: boolean; asynchronous?: boolean; debugShowBoundingVolume?: boolean; debugWireframe?: boolean }): Model;
     }
+
+    class ColorBlendMode {}
 
     class ModelAnimation {
         removeOnStop: boolean;
@@ -4847,19 +4902,37 @@ declare module Cesium {
     class ModelAnimationCollection {
         animationAdded: Event;
         animationRemoved: Event;
-        length: number;
+        readonly length: number;
 
-        add(options: { name: string; startTime?: JulianDate; delay?: number; stopTime?: JulianDate; removeOnStop?: boolean; speedup?: number; reverse?: boolean; loop?: ModelAnimationLoop }): ModelAnimation;
+        add(options: {
+            name: string;
+            index?: number;
+            startTime?: JulianDate;
+            delay?: number;
+            stopTime?: JulianDate;
+            removeOnStop?: boolean;
+            speedup?: number;
+            reverse?: boolean;
+            loop?: ModelAnimationLoop;
+        }): ModelAnimation;
 
-        addAll(options?: { startTime?: JulianDate; delay?: number; stopTime?: JulianDate; removeOnStop?: boolean; speedup?: number; reverse?: boolean; loop?: ModelAnimationLoop }): ModelAnimation[];
-
-        remove(animation: ModelAnimation): boolean;
-
-        removeAll(): void;
+        addAll(options?: {
+            startTime?: JulianDate;
+            delay?: number;
+            stopTime?: JulianDate;
+            removeOnStop?: boolean;
+            speedup?: number;
+            reverse?: boolean;
+            loop?: ModelAnimationLoop;
+        }): ModelAnimation[];
 
         contains(animation: ModelAnimation): boolean;
 
         get(index: number): ModelAnimation;
+
+        remove(animation: ModelAnimation): boolean;
+
+        removeAll(): void;
     }
 
     class ModelMaterial {
@@ -5272,7 +5345,6 @@ declare module Cesium {
         morphComplete: Event;
         morphStart: Event;
         morphTime: number;
-        nearToFarDistance2D: number;
         nearToFarDistance2D: number;
         readonly orderIndependentTranslucency: boolean;
         readonly pickPositionSupported: boolean;
