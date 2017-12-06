@@ -3238,6 +3238,9 @@ declare module Cesium {
     }
 
     class KmlLoadOptions {
+        camera: Camera;
+        canvas: HTMLCanvasElement;
+        proxy?: DefaultProxy;
         sourceUri?: string;
         clampToGround?: boolean;
         query?: Object;
