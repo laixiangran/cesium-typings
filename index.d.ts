@@ -5456,7 +5456,7 @@ declare module Cesium {
             debugShowShadowVolume?: boolean;
         });
 
-        static initializeTerrainHeights(): Promise;
+        static initializeTerrainHeights(): Promise<any>;
 
         destroy(): void;
 

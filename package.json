@@ -1,6 +1,6 @@
 {
 	"name": "cesium-typings",
-	"version": "1.40.2",
+	"version": "1.40.3",
 	"description": "Typescript definition for Cesium v1.40",
 	"keywords": [
 		"cesium",
@@ -23,6 +23,12 @@
 		"url": "https://github.com/laixiangran/cesium-typings/issues"
 	},
 	"scripts": {
-		"release": "npm publish"
+		"prerelease": "npm run lint",
+		"release": "npm publish",
+		"prelint": "npm install",
+		"lint": "tsc index.d.ts"
+	},
+	"devDependencies": {
+		"typescript": "^2.6.2"
 	}
 }
