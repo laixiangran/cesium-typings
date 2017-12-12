@@ -6394,17 +6394,17 @@ declare module Cesium {
     }
 
     class ViewerOptions {
-        animation?: boolean;
-        baseLayerPicker?: boolean;
-        fullscreenButton?: boolean;
-        vrButton?: boolean;
-        geocoder?: boolean;
-        homeButton?: boolean;
-        infoBox?: boolean;
-        sceneModePicker?: boolean;
-        selectionIndicator?: boolean;
-        timeline?: boolean;
-        navigationHelpButton?: boolean;
+        animation?: boolean | any;
+        baseLayerPicker?: boolean | any;
+        fullscreenButton?: boolean | any;
+        vrButton?: boolean | any;
+        geocoder?: boolean | any;
+        homeButton?: boolean | any;
+        infoBox?: boolean | any;
+        sceneModePicker?: boolean | any;
+        selectionIndicator?: boolean | any;
+        timeline?: boolean | any;
+        navigationHelpButton?: boolean | any;
         navigationInstructionsInitiallyVisible?: boolean;
         scene3DOnly?: boolean;
         clockViewModel?: ClockViewModel;
@@ -6432,7 +6432,7 @@ declare module Cesium {
         shadows?: boolean;
         terrainShadows?: ShadowMode;
         mapMode2D?: MapMode2D;
-        projectionPicker?: boolean;
+        projectionPicker?: boolean | any;
     }
 
     class VRButton {
