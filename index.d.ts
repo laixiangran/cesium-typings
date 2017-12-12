@@ -1,7 +1,7 @@
 /**
  * Created by laixiangran on 2017/11/14.
  * homepage：http://www.laixiangran.cn
- * Typescript definition for cesium 1.39
+ * Typescript definition for cesium 1.40
  */
 
 declare module Cesium {
@@ -96,17 +96,11 @@ declare module Cesium {
     }
 
     class BoundingSphere {
+        static packedLength: number;
         center: Cartesian3;
         radius: number;
-        static packedLength: number;
 
         constructor(center?: Cartesian3, radius?: number);
-
-        intersect(plane: Cartesian4): Intersect;
-
-        equals(right?: BoundingSphere): boolean;
-
-        clone(result?: BoundingSphere): BoundingSphere;
 
         static fromPoints(positions: Cartesian3[], result?: BoundingSphere): BoundingSphere;
 
@@ -123,6 +117,10 @@ declare module Cesium {
         static fromEllipsoid(ellipsoid: Ellipsoid, result?: BoundingSphere): BoundingSphere;
 
         static fromBoundingSpheres(boundingSpheres: BoundingSphere[], result?: BoundingSphere): BoundingSphere;
+
+        static fromEncodedCartesianVertices(positionsHigh?: number[], positionsLow?: number[], result?: BoundingSphere): BoundingSphere;
+
+        static fromOrientedBoundingBox(orientedBoundingBox: OrientedBoundingBox, result?: BoundingSphere): BoundingSphere;
 
         static clone(sphere: BoundingSphere, result?: BoundingSphere): BoundingSphere;
 
@@ -147,20 +145,79 @@ declare module Cesium {
         static projectTo2D(sphere: BoundingSphere, projection?: any, result?: BoundingSphere): BoundingSphere;
 
         static equals(left?: BoundingSphere, right?: BoundingSphere): boolean;
+
+        static intersectPlane(sphere: BoundingSphere, plane: Plane): Intersect;
+
+        static isOccluded(sphere: BoundingSphere, occluder: Occluder): boolean;
+
+        intersect(plane: Cartesian4): Intersect;
+
+        equals(right?: BoundingSphere): boolean;
+
+        clone(result?: BoundingSphere): BoundingSphere;
+
+        computePlaneDistances(position: Cartesian3, direction: Cartesian3, result?: Interval): Interval;
+
+        distanceSquaredTo(cartesian: Cartesian3): number;
+
+        intersectPlane(plane: Plane): Intersect;
+
+        isOccluded(occluder: Occluder): boolean;
+    }
+
+    class OrientedBoundingBox {
+        center: Cartesian3;
+        halfAxes: Matrix3;
+
+        constructor(center?: Cartesian3, halfAxes?: Matrix3);
+
+        static clone(box: OrientedBoundingBox, result?: OrientedBoundingBox): OrientedBoundingBox;
+
+        static computePlaneDistances(box: OrientedBoundingBox, position: Cartesian3, direction: Cartesian3, result?: Interval): Interval;
+
+        static distanceSquaredTo(box: OrientedBoundingBox, cartesian: Cartesian3): number;
+
+        static equals(left: OrientedBoundingBox, right: OrientedBoundingBox): boolean;
+
+        static fromPoints(positions: Cartesian3[], result?: OrientedBoundingBox): OrientedBoundingBox;
+
+        static fromRectangle(rectangle: Rectangle, minimumHeight?: number, maximumHeight?: number, ellipsoid?: Ellipsoid, result?: OrientedBoundingBox): OrientedBoundingBox;
+
+        static intersectPlane(box: OrientedBoundingBox, plane: Plane): Intersect;
+
+        static isOccluded(box: OrientedBoundingBox, occluder: Occluder): boolean;
+
+        clone(result?: OrientedBoundingBox): OrientedBoundingBox;
+
+        computePlaneDistances(position: Cartesian3, direction: Cartesian3, result?: Interval): Interval;
+
+        distanceSquaredTo(cartesian: Cartesian3): number;
+
+        equals(right: OrientedBoundingBox): boolean;
+
+        intersectPlane(plane: Plane): Intersect;
+
+        isOccluded(occluder: Occluder): boolean;
     }
 
     class BoxGeometry {
         static packedLength: number;
 
-        constructor(options: { minimumCorner: Cartesian3; maximumCorner: Cartesian3; vertexFormat?: VertexFormat });
+        constructor(options: {
+            minimumCorner: Cartesian3;
+            maximumCorner: Cartesian3;
+            vertexFormat?: VertexFormat
+        });
 
-        static fromDimensions(): BoxGeometry;
+        static createGeometry(boxGeometry: BoxGeometry): Geometry | undefined;
+
+        static fromAxisAlignedBoundingBox(boundingBox: AxisAlignedBoundingBox): BoxGeometry;
+
+        static fromDimensions(options: { dimensions: Cartesian3, vertexFormat?: VertexFormat }): BoxGeometry;
 
         static pack(value: any, array: number[], startingIndex?: number): number[];
 
         static unpack(array: number[], startingIndex?: number, result?: BoxGeometry): BoxGeometry;
-
-        static createGeometry(boxGeometry: BoxGeometry): Geometry;
     }
 
     class BoxOutlineGeometry {
@@ -174,7 +231,7 @@ declare module Cesium {
 
         static unpack(array: number[], startingIndex?: number, result?: BoxOutlineGeometry): BoxOutlineGeometry;
 
-        static createGeometry(boxGeometry: BoxOutlineGeometry): Geometry;
+        static createGeometry(boxGeometry: BoxOutlineGeometry): Geometry | undefined;
     }
 
     class Cartesian2 {
@@ -580,25 +637,42 @@ declare module Cesium {
     class CircleGeometry {
         static packedLength: number;
 
-        constructor(options: { center: Cartesian3; radius: number; ellipsoid?: Ellipsoid; height?: number; granularity?: number; vertexFormat?: VertexFormat; extrudedHeight?: number; stRotation?: number });
+        constructor(options: {
+            center: Cartesian3;
+            radius: number;
+            ellipsoid?: Ellipsoid;
+            height?: number;
+            granularity?: number;
+            vertexFormat?: VertexFormat;
+            extrudedHeight?: number;
+            stRotation?: number
+        });
+
+        static createGeometry(circleGeometry: CircleGeometry): Geometry | undefined;
 
         static pack(value: any, array: number[], startingIndex?: number): number[];
 
         static unpack(array: number[], startingIndex?: number, result?: CircleGeometry): CircleGeometry;
-
-        static createGeometry(circleGeometry: CircleGeometry): Geometry;
     }
 
     class CircleOutlineGeometry {
         static packedLength: number;
 
-        constructor(options: { center: Cartesian3; radius: number; ellipsoid?: Ellipsoid; height?: number; granularity?: number; extrudedHeight?: number; numberOfVerticalLines?: number });
+        constructor(options: {
+            center: Cartesian3;
+            radius: number;
+            ellipsoid?: Ellipsoid;
+            height?: number;
+            granularity?: number;
+            extrudedHeight?: number;
+            numberOfVerticalLines?: number
+        });
+
+        static createGeometry(circleGeometry: CircleOutlineGeometry): Geometry | undefined;
 
         static pack(value: any, array: number[], startingIndex?: number): number[];
 
         static unpack(array: number[], startingIndex?: number, result?: CircleOutlineGeometry): CircleOutlineGeometry;
-
-        static createGeometry(circleGeometry: CircleOutlineGeometry): Geometry;
     }
 
     class Clock {
@@ -842,7 +916,7 @@ declare module Cesium {
 
         static unpack(array: number[], startingIndex?: number, result?: CorridorGeometry): CorridorGeometry;
 
-        static createGeometry(corridorGeometry: CorridorGeometry): Geometry;
+        static createGeometry(corridorGeometry: CorridorGeometry): Geometry | undefined;
     }
 
     class CorridorOutlineGeometry {
@@ -854,7 +928,7 @@ declare module Cesium {
 
         static unpack(array: number[], startingIndex?: number, result?: CorridorOutlineGeometry): CorridorOutlineGeometry;
 
-        static createGeometry(corridorOutlineGeometry: CorridorOutlineGeometry): Geometry;
+        static createGeometry(corridorOutlineGeometry: CorridorOutlineGeometry): Geometry | undefined;
     }
 
     class Credit {
@@ -881,7 +955,7 @@ declare module Cesium {
 
         static unpack(array: number[], startingIndex?: number, result?: CylinderGeometry): CylinderGeometry;
 
-        static createGeometry(cylinderGeometry: CylinderGeometry): Geometry;
+        static createGeometry(cylinderGeometry: CylinderGeometry): Geometry | undefined;
     }
 
     class CylinderOutlineGeometry {
@@ -893,7 +967,7 @@ declare module Cesium {
 
         static unpack(array: number[], startingIndex?: number, result?: CylinderOutlineGeometry): CylinderOutlineGeometry;
 
-        static createGeometry(cylinderGeometry: CylinderOutlineGeometry): Geometry;
+        static createGeometry(cylinderGeometry: CylinderOutlineGeometry): Geometry | undefined;
     }
 
     class DefaultProxy {
@@ -928,13 +1002,24 @@ declare module Cesium {
     class EllipseGeometry {
         static packedLength: number;
 
-        constructor(options: { center: Cartesian3; semiMajorAxis: number; semiMinorAxis: number; ellipsoid?: Ellipsoid; height?: number; extrudedHeight?: number; rotation?: number; stRotation?: number; granularity?: number; vertexFormat?: VertexFormat });
+        constructor(options: {
+            center: Cartesian3;
+            semiMajorAxis: number;
+            semiMinorAxis: number;
+            ellipsoid?: Ellipsoid;
+            height?: number;
+            extrudedHeight?: number;
+            rotation?: number;
+            stRotation?: number;
+            granularity?: number;
+            vertexFormat?: VertexFormat
+        });
+
+        static createGeometry(ellipseGeometry: EllipseGeometry): Geometry | undefined;
 
         static pack(value: any, array: number[], startingIndex?: number): number[];
 
         static unpack(array: number[], startingIndex?: number, result?: EllipseGeometry): EllipseGeometry;
-
-        static createGeometry(ellipseGeometry: EllipseGeometry): Geometry;
     }
 
     class EllipseOutlineGeometry {
@@ -942,11 +1027,11 @@ declare module Cesium {
 
         constructor(options: { center: Cartesian3; semiMajorAxis: number; semiMinorAxis: number; ellipsoid?: Ellipsoid; height?: number; extrudedHeight?: number; rotation?: number; granularity?: number; numberOfVerticalLines?: number });
 
+        static createGeometry(ellipseGeometry: EllipseOutlineGeometry): Geometry | undefined;
+
         static pack(value: any, array: number[], startingIndex?: number): number[];
 
         static unpack(array: number[], startingIndex?: number, result?: EllipseOutlineGeometry): EllipseOutlineGeometry;
-
-        static createGeometry(ellipseGeometry: EllipseOutlineGeometry): Geometry;
     }
 
     class Ellipsoid {
@@ -1024,11 +1109,11 @@ declare module Cesium {
 
         constructor(options?: { radii?: Cartesian3; stackPartitions?: number; slicePartitions?: number; vertexFormat?: VertexFormat });
 
+        static createGeometry(ellipsoidGeometry: EllipsoidGeometry): Geometry | undefined;
+
         static pack(value: any, array: number[], startingIndex?: number): number[];
 
         static unpack(array: number[], startingIndex?: number, result?: EllipsoidGeometry): EllipsoidGeometry;
-
-        static createGeometry(ellipsoidGeometry: EllipsoidGeometry): Geometry;
     }
 
     class EllipsoidOutlineGeometry {
@@ -1036,11 +1121,11 @@ declare module Cesium {
 
         constructor(options?: { radii?: Cartesian3; stackPartitions?: number; slicePartitions?: number; subdivisions?: number });
 
+        static createGeometry(ellipsoidGeometry: EllipsoidOutlineGeometry): Geometry | undefined;
+
         static pack(value: any, array: number[], startingIndex?: number): number[];
 
         static unpack(array: number[], startingIndex?: number, result?: EllipsoidOutlineGeometry): EllipsoidOutlineGeometry;
-
-        static createGeometry(ellipsoidGeometry: EllipsoidOutlineGeometry): Geometry;
     }
 
     class EllipsoidTangentPlane {
@@ -1131,11 +1216,16 @@ declare module Cesium {
 
     class Geometry {
         attributes: GeometryAttributes;
+        boundingSphere: BoundingSphere;
         indices: any[];
         primitiveType: PrimitiveType;
-        boundingSphere: BoundingSphere;
 
-        constructor(options: { attributes: GeometryAttributes; primitiveType?: PrimitiveType; indices?: Uint16Array | Uint32Array; boundingSphere?: BoundingSphere });
+        constructor(options: {
+            attributes: GeometryAttributes;
+            primitiveType?: PrimitiveType;
+            indices?: Uint16Array | Uint32Array;
+            boundingSphere?: BoundingSphere
+        });
 
         static computeNumberOfVertices(geometry: Cartesian3): number;
     }
@@ -1150,12 +1240,12 @@ declare module Cesium {
     }
 
     class GeometryAttributes {
-        position: GeometryAttribute;
-        normal: GeometryAttribute;
-        st: GeometryAttribute;
-        binormal: GeometryAttribute;
-        tangent: GeometryAttribute;
+        bitangent: GeometryAttribute;
         color: GeometryAttribute;
+        normal: GeometryAttribute;
+        position: GeometryAttribute;
+        st: GeometryAttribute;
+        tangent: GeometryAttribute;
     }
 
     class GeometryInstance {
@@ -1648,23 +1738,23 @@ declare module Cesium {
     }
 
     class Occluder {
+        cameraPosition: Cartesian3;
         position: Cartesian3;
         radius: number;
-        cameraPosition: Cartesian3;
 
         constructor(occluderBoundingSphere: BoundingSphere, cameraPosition: Cartesian3);
-
-        isPointVisible(occludee: Cartesian3): boolean;
-
-        isBoundingSphereVisible(occludee: BoundingSphere): boolean;
-
-        computeVisibility(occludeeBS: BoundingSphere): number;
-
-        static fromBoundingSphere(occluderBoundingSphere: BoundingSphere, cameraPosition: Cartesian3, result?: Occluder): Occluder;
 
         static computeOccludeePoint(occluderBoundingSphere: BoundingSphere, occludeePosition: Cartesian3, positions: Cartesian3[]): any;
 
         static computeOccludeePointFromRectangle(rectangle: Rectangle, ellipsoid?: Ellipsoid): any;
+
+        static fromBoundingSphere(occluderBoundingSphere: BoundingSphere, cameraPosition: Cartesian3, result?: Occluder): Occluder;
+
+        computeVisibility(occludeeBS: BoundingSphere): number;
+
+        isBoundingSphereVisible(occludee: BoundingSphere): boolean;
+
+        isPointVisible(occludee: Cartesian3): boolean;
     }
 
     class PinBuilder {
@@ -1678,10 +1768,15 @@ declare module Cesium {
     }
 
     class Plane {
-        normal: Cartesian3;
+        static ORIGIN_XY_PLANE: Plane;
+        static ORIGIN_YZ_PLANE: Plane;
+        static ORIGIN_ZX_PLANE: Plane;
         distance: number;
+        normal: Cartesian3;
 
         constructor(normal: Cartesian3, distance: number);
+
+        static fromCartesian4(coefficients: Cartesian4, result: Plane): Plane;
 
         static fromPointNormal(point: Cartesian3, normal: Cartesian3, result?: Plane): Plane;
 
@@ -1689,11 +1784,22 @@ declare module Cesium {
     }
 
     class PolygonGeometry {
-        constructor(options: { polygonHierarchy: PolygonHierarchy; height?: number; extrudedHeight?: number; vertexFormat?: VertexFormat; stRotation?: number; ellipsoid?: Ellipsoid; granularity?: number; perPositionHeight?: boolean });
-
         packedLength: number;
 
-        static createGeometry(polygonGeometry: PolygonGeometry): Geometry;
+        constructor(options: {
+            polygonHierarchy: PolygonHierarchy;
+            height?: number;
+            extrudedHeight?: number;
+            vertexFormat?: VertexFormat;
+            stRotation?: number;
+            ellipsoid?: Ellipsoid;
+            granularity?: number;
+            perPositionHeight?: boolean;
+            closeTop?: boolean;
+            closeBottom?: boolean;
+        });
+
+        static createGeometry(polygonGeometry: PolygonGeometry): Geometry | undefined;
 
         static fromPositions(options: PolygonGeometryOptions): PolygonGeometry;
 
@@ -1720,7 +1826,7 @@ declare module Cesium {
 
         packedLength: number;
 
-        static createGeometry(polygonGeometry: PolygonOutlineGeometry): Geometry;
+        static createGeometry(polygonGeometry: PolygonOutlineGeometry): Geometry | undefined;
 
         static fromPositions(options: PolygonOutlineGeometryOptions): PolygonOutlineGeometry;
 
@@ -1748,7 +1854,7 @@ declare module Cesium {
 
         static unpack(array: number[], startingIndex?: number, result?: PolylineGeometry): PolylineGeometry;
 
-        static createGeometry(polylineGeometry: PolylineGeometry): Geometry;
+        static createGeometry(polylineGeometry: PolylineGeometry): Geometry | undefined;
     }
 
     class PolylineVolumeGeometry {
@@ -1760,7 +1866,7 @@ declare module Cesium {
 
         static unpack(array: number[], startingIndex?: number, result?: PolylineVolumeGeometry): PolylineVolumeGeometry;
 
-        static createGeometry(polylineVolumeGeometry: PolylineVolumeGeometry): Geometry;
+        static createGeometry(polylineVolumeGeometry: PolylineVolumeGeometry): Geometry | undefined;
     }
 
     class PolylineVolumeOutlineGeometry {
@@ -1772,7 +1878,7 @@ declare module Cesium {
 
         static unpack(array: number[], startingIndex?: number, result?: PolylineVolumeOutlineGeometry): PolylineVolumeOutlineGeometry;
 
-        static createGeometry(polylineVolumeOutlineGeometry: PolylineVolumeOutlineGeometry): Geometry;
+        static createGeometry(polylineVolumeOutlineGeometry: PolylineVolumeOutlineGeometry): Geometry | undefined;
     }
 
     class QuantizedMeshTerrainData {
@@ -1962,13 +2068,24 @@ declare module Cesium {
     class RectangleGeometry {
         static packedLength: number;
 
-        constructor(options: { rectangle: Rectangle; vertexFormat?: VertexFormat; ellipsoid?: Ellipsoid; granularity?: number; height?: number; rotation?: number; stRotation?: number; extrudedHeight?: number });
+        constructor(options: {
+            rectangle: Rectangle;
+            vertexFormat?: VertexFormat;
+            ellipsoid?: Ellipsoid;
+            granularity?: number;
+            height?: number;
+            rotation?: number;
+            stRotation?: number;
+            extrudedHeight?: number;
+            closeTop?: boolean;
+            closeBottom?: boolean;
+        });
+
+        static createGeometry(rectangleGeometry: RectangleGeometry): Geometry | undefined;
 
         static pack(value: BoundingSphere, array: number[], startingIndex?: number): number[];
 
         static unpack(array: number[], startingIndex?: number, result?: RectangleGeometry): RectangleGeometry;
-
-        static createGeometry(rectangleGeometry: RectangleGeometry): Geometry;
     }
 
     class RectangleOutlineGeometry {
@@ -1980,7 +2097,7 @@ declare module Cesium {
 
         static unpack(array: number[], startingIndex?: number, result?: RectangleGeometry): RectangleGeometry;
 
-        static createGeometry(rectangleGeometry: RectangleOutlineGeometry): Geometry;
+        static createGeometry(rectangleGeometry: RectangleOutlineGeometry): Geometry | undefined;
     }
 
     class RequestErrorEvent {
@@ -2031,13 +2148,20 @@ declare module Cesium {
     class SimplePolylineGeometry {
         packedLength: number;
 
-        constructor(options: { positions: Cartesian3[]; colors?: Color[]; colorsPerVertex?: boolean; followSurface?: boolean; granularity?: number; ellipsoid?: Ellipsoid });
+        constructor(options: {
+            positions: Cartesian3[];
+            colors?: Color[];
+            colorsPerVertex?: boolean;
+            followSurface?: boolean;
+            granularity?: number;
+            ellipsoid?: Ellipsoid
+        });
+
+        static createGeometry(simplePolylineGeometry: SimplePolylineGeometry): Geometry | undefined;
 
         static pack(value: any, array: number[], startingIndex?: number): number[];
 
         static unpack(array: number[], startingIndex?: number, result?: SimplePolylineGeometry): SimplePolylineGeometry;
-
-        static createGeometry(simplePolylineGeometry: SimplePolylineGeometry): Geometry;
     }
 
     class SphereGeometry {
@@ -2049,7 +2173,7 @@ declare module Cesium {
 
         static unpack(array: number[], startingIndex?: number, result?: SphereGeometry): SphereGeometry;
 
-        static createGeometry(sphereGeometry: SphereGeometry): Geometry;
+        static createGeometry(sphereGeometry: SphereGeometry): Geometry | undefined;
     }
 
     class SphereOutlineGeometry {
@@ -2061,7 +2185,7 @@ declare module Cesium {
 
         static unpack(array: number[], startingIndex?: number, result?: SphereOutlineGeometry): SphereOutlineGeometry;
 
-        static createGeometry(sphereGeometry: SphereOutlineGeometry): Geometry;
+        static createGeometry(sphereGeometry: SphereOutlineGeometry): Geometry | undefined;
     }
 
     class Spherical {
@@ -2309,15 +2433,22 @@ declare module Cesium {
     class WallGeometry {
         packedLength: number;
 
-        constructor(options: { positions: Cartesian3[]; granularity?: number; maximumHeights?: number[]; minimumHeights?: number[]; ellipsoid?: Ellipsoid; vertexFormat?: VertexFormat });
+        constructor(options: {
+            positions: Cartesian3[];
+            granularity?: number;
+            maximumHeights?: number[];
+            minimumHeights?: number[];
+            ellipsoid?: Ellipsoid;
+            vertexFormat?: VertexFormat
+        });
+
+        static createGeometry(wallGeometry: WallGeometry): Geometry | undefined;
+
+        static fromConstantHeights(positions: Cartesian3[], maximumHeight?: number, minimumHeight?: number, ellipsoid?: Ellipsoid): WallGeometry;
 
         static pack(value: any, array: number[], startingIndex?: number): number[];
 
         static unpack(array: number[], startingIndex?: number, result?: WallGeometry): WallGeometry;
-
-        static fromConstantHeights(positions: Cartesian3[], maximumHeight?: number, minimumHeight?: number, ellipsoid?: Ellipsoid): WallGeometry;
-
-        static createGeometry(wallGeometry: WallGeometry): Geometry;
     }
 
     class WallOutlineGeometry {
@@ -2331,7 +2462,7 @@ declare module Cesium {
 
         static fromConstantHeights(positions: Cartesian3[], maximumHeight?: number, minimumHeight?: number, ellipsoid?: Ellipsoid): WallOutlineGeometry;
 
-        static createGeometry(wallGeometry: WallOutlineGeometry): Geometry;
+        static createGeometry(wallGeometry: WallOutlineGeometry): Geometry | undefined;
     }
 
     class WebMercatorProjection {
@@ -5223,22 +5354,38 @@ declare module Cesium {
     }
 
     class Primitive {
-        geometryInstances: any[];
-        appearance: Appearance;
-        modelMatrix: Matrix4;
-        show: boolean;
+        readonly allowPicking: boolean;
+        readonly asynchronous: boolean;
+        readonly compressVertices: boolean;
+        readonly geometryInstances: GeometryInstance[] | GeometryInstance;
+        readonly interleave: boolean;
+        readonly vertexCacheOptimize: boolean;
+        readonly releaseGeometryInstances: boolean;
+        readonly ready: boolean;
+        readonly readyPromise: Promise<Primitive>;
         cull: boolean;
         debugShowBoundingVolume: boolean;
-        vertexCacheOptimize: boolean;
-        interleave: boolean;
-        releaseGeometryInstances: boolean;
-        allowPicking: boolean;
-        asynchronous: boolean;
-        compressVertices: boolean;
-        ready: boolean;
-        readyPromise: Promise<Primitive>;
+        depthFailAppearance: Appearance;
+        modelMatrix: Matrix4;
+        shadows: ShadowMode;
+        show: boolean;
+        appearance: Appearance;
 
-        constructor(options?: { geometryInstances?: any[] | GeometryInstance; appearance?: Appearance; show?: boolean; modelMatrix?: Matrix4; vertexCacheOptimize?: boolean; interleave?: boolean; compressVertices?: boolean; releaseGeometryInstances?: boolean; allowPicking?: boolean; cull?: boolean; asynchronous?: boolean; debugShowBoundingVolume?: boolean });
+        constructor(options?: {
+            geometryInstances?: any[] | GeometryInstance;
+            appearance?: Appearance;
+            show?: boolean;
+            modelMatrix?: Matrix4;
+            vertexCacheOptimize?: boolean;
+            interleave?: boolean;
+            compressVertices?: boolean;
+            releaseGeometryInstances?: boolean;
+            allowPicking?: boolean;
+            cull?: boolean;
+            asynchronous?: boolean;
+            debugShowBoundingVolume?: boolean;
+            shadows?: ShadowMode;
+        });
 
         update(): void;
 
@@ -5250,9 +5397,9 @@ declare module Cesium {
     }
 
     class PrimitiveCollection {
+        readonly length: number;
         show: boolean;
         destroyPrimitives: boolean;
-        length: number;
 
         constructor(options?: { show?: boolean; destroyPrimitives?: boolean });
 
@@ -5277,6 +5424,47 @@ declare module Cesium {
         isDestroyed(): boolean;
 
         destroy(): void;
+    }
+
+    class GroundPrimitive {
+        static isSupported: any;
+        readonly allowPicking: boolean;
+        readonly asynchronous: boolean;
+        readonly compressVertices: boolean;
+        readonly geometryInstances: any[] | GeometryInstance;
+        readonly interleave: boolean;
+        readonly vertexCacheOptimize: boolean;
+        readonly releaseGeometryInstances: boolean;
+        readonly ready: boolean;
+        readonly readyPromise: Promise<Primitive>;
+        classificationType: any;
+        debugShowBoundingVolume: boolean;
+        debugShowShadowVolume: boolean;
+        show: boolean;
+
+        constructor(options?: {
+            geometryInstances?: any[] | GeometryInstance;
+            show?: boolean;
+            vertexCacheOptimize?: boolean;
+            interleave?: boolean;
+            compressVertices?: boolean;
+            releaseGeometryInstances?: boolean;
+            allowPicking?: boolean;
+            asynchronous?: boolean;
+            classificationType?: any;
+            debugShowBoundingVolume?: boolean;
+            debugShowShadowVolume?: boolean;
+        });
+
+        static initializeTerrainHeights(): Promise;
+
+        destroy(): void;
+
+        getGeometryInstanceAttributes(id: any): any;
+
+        destroy(): boolean;
+
+        update(): void;
     }
 
     class RectanglePrimitive {
@@ -6707,13 +6895,13 @@ declare module Cesium {
     }
 
     class PrimitiveType {
-        static POINTS: number;
-        static LINES: number;
         static LINE_LOOP: number;
         static LINE_STRIP: number;
-        static TRIANGLES: number;
-        static TRIANGLE_STRIP: number;
+        static LINES: number;
+        static POINTS: number;
         static TRIANGLE_FAN: number;
+        static TRIANGLE_STRIP: number;
+        static TRIANGLES: number;
     }
 
     module QuadraticRealPolynomial {
