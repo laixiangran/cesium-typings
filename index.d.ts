@@ -1254,7 +1254,7 @@ declare module Cesium {
         id: any;
         attributes: any;
 
-        constructor(options: { geometry: Geometry; modelMatrix?: Matrix4; id?: any; attributes?: any });
+        constructor(options: { geometry: Geometry | any; modelMatrix?: Matrix4; id?: any; attributes?: any });
     }
 
     class GeometryInstanceAttribute {
