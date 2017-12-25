@@ -4719,25 +4719,59 @@ declare module Cesium {
         alpha: number;
         brightness: number;
         contrast: number;
-        hue: number;
-        saturation: number;
         gamma: number;
+        hue: number;
+        readonly imageryProvider: ImageryProvider;
+        magnificationFilter: number;
+        minificationFilter: number;
+        readonly rectangle: Rectangle;
+        saturation: number;
         show: boolean;
-        imageryProvider: ImageryProvider;
-        rectangle: Rectangle;
+        splitDirection: number;
         static DEFAULT_BRIGHTNESS: number;
         static DEFAULT_CONTRAST: number;
-        static DEFAULT_HUE: number;
-        static DEFAULT_SATURATION: number;
         static DEFAULT_GAMMA: number;
+        static DEFAULT_HUE: number;
+        static DEFAULT_MAGNIFICATION_FILTER: number;
+        static DEFAULT_MINIFICATION_FILTER: number;
+        static DEFAULT_SATURATION: number;
+        static DEFAULT_SPLIT: number;
 
-        constructor(imageryProvider: ImageryProvider, options?: { rectangle?: Rectangle; alpha?: number | Function; brightness?: number | Function; contrast?: number | Function; hue?: number | Function; saturation?: number | Function; gamma?: number | Function; show?: boolean; maximumAnisotropy?: number; minimumTerrainLevel?: number; maximumTerrainLevel?: number });
+        constructor(imageryProvider: ImageryProvider, options?: {
+            rectangle?: Rectangle;
+            alpha?: number | Function;
+            brightness?: number | Function;
+            contrast?: number | Function;
+            hue?: number | Function;
+            saturation?: number | Function;
+            gamma?: number | Function;
+            splitDirection?: number | Function;
+            minificationFilter?: number;
+            magnificationFilter?: number;
+            show?: boolean;
+            maximumAnisotropy?: number;
+            minimumTerrainLevel?: number;
+            maximumTerrainLevel?: number
+        });
+
+        getViewableRectangle(): Promise<Rectangle>;
 
         isBaseLayer(): boolean;
 
         isDestroyed(): boolean;
 
         destroy(): void;
+    }
+
+    class TextureMagnificationFilter {
+        static LINEAR: number;
+        static NEAREST: number;
+    }
+
+    class ImagerySplitDirection {
+        static LEFT: number;
+        static NONE: number;
+        static RIGHT: number;
     }
 
     class ImageryLayerCollection {
