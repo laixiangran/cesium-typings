@@ -5838,28 +5838,52 @@ declare module Cesium {
     }
 
     class WebMapTileServiceImageryProvider extends ImageryProvider {
-        url: string;
-        proxy: Proxy;
-        tileWidth: number;
-        tileHeight: number;
-        maximumLevel: number;
-        minimumLevel: number;
-        tilingScheme: TilingScheme;
-        rectangle: Rectangle;
-        tileDiscardPolicy: TileDiscardPolicy;
-        errorEvent: Event;
-        format: string;
-        ready: boolean;
-        credit: Credit;
-        hasAlphaChannel: boolean;
+        clock: Clock;
+        readonly credit: Credit;
+        dimensions: any;
+        readonly errorEvent: Event;
+        readonly format: string;
+        readonly hasAlphaChannel: boolean;
+        readonly maximumLevel: number;
+        readonly minimumLevel: number;
+        readonly proxy: Proxy;
+        readonly ready: boolean;
+        readonly readyPromise: Promise<boolean>
+        readonly rectangle: Rectangle;
+        readonly tileDiscardPolicy: TileDiscardPolicy;
+        readonly tileHeight: number;
+        readonly tileWidth: number;
+        readonly tilingScheme: TilingScheme;
+        times: TimeIntervalCollection;
+        readonly url: string;
 
-        constructor(options: { url: string; format?: string; layer: string; style: string; tileMatrixSetID: string; tileMatrixLabels?: any[]; tileWidth?: number; tileHeight?: number; tilingScheme?: TilingScheme; proxy?: any; rectangle?: Rectangle; minimumLevel?: number; maximumLevel?: number; ellipsoid?: Ellipsoid; credit?: Credit | string });
+        constructor(options: {
+            url: string;
+            format?: string;
+            layer: string;
+            style: string;
+            tileMatrixSetID: string;
+            tileMatrixLabels?: any[];
+            clock?: Clock;
+            times?: TimeIntervalCollection;
+            dimensions?: any;
+            tileWidth?: number;
+            tileHeight?: number;
+            tilingScheme?: TilingScheme;
+            proxy?: any;
+            rectangle?: Rectangle;
+            minimumLevel?: number;
+            maximumLevel?: number;
+            ellipsoid?: Ellipsoid;
+            credit?: Credit | string;
+            subdomains?: string | string[]
+        });
 
         getTileCredits(x: number, y: number, level: number): Credit[];
 
-        requestImage(x: number, y: number, level: number): Promise<HTMLImageElement | HTMLCanvasElement>;
-
         pickFeatures(x: number, y: number, level: number, longitude: number, latitude: number): Promise<ImageryLayerFeatureInfo[]>;
+
+        requestImage(x: number, y: number, level: number): Promise<HTMLImageElement | HTMLCanvasElement>;
     }
 
     class Animation {
