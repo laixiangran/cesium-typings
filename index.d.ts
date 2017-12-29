@@ -5683,7 +5683,7 @@ declare module Cesium {
         softShadows?: boolean;
     }
 
-    class SingleTileImageryProvider {
+    class SingleTileImageryProvider extends ImageryProvider {
         url: string;
         proxy: Proxy;
         tileWidth: number;
@@ -5773,19 +5773,20 @@ declare module Cesium {
     }
 
     class TileMapServiceImageryProvider extends ImageryProvider {
-        url: string;
-        proxy: Proxy;
-        tileWidth: number;
-        tileHeight: number;
-        maximumLevel: number;
-        minimumLevel: number;
-        tilingScheme: TilingScheme;
-        rectangle: Rectangle;
-        tileDiscardPolicy: TileDiscardPolicy;
-        errorEvent: Event;
-        ready: boolean;
-        credit: Credit;
-        hasAlphaChannel: boolean;
+        readonly url: string;
+        readonly proxy: Proxy;
+        readonly tileWidth: number;
+        readonly tileHeight: number;
+        readonly maximumLevel: number;
+        readonly minimumLevel: number;
+        readonly tilingScheme: TilingScheme;
+        readonly rectangle: Rectangle;
+        readonly tileDiscardPolicy: TileDiscardPolicy;
+        readonly errorEvent: Event;
+        readonly ready: boolean;
+        readonly readyPromise: Promise<boolean>
+        readonly credit: Credit;
+        readonly hasAlphaChannel: boolean;
 
         constructor(options?: { url?: string; fileExtension?: string; proxy?: any; credit?: Credit | string; minimumLevel?: number; maximumLevel?: number; rectangle?: Rectangle; tilingScheme?: TilingScheme; ellipsoid?: Ellipsoid; tileWidth?: number; tileHeight?: number });
 
@@ -7209,27 +7210,24 @@ declare module Cesium {
         flipXY?: boolean
     }): TileMapServiceImageryProvider;
 
-    class UrlTemplateImageryProvider {
-        url: string;
-        pickFeaturesUrl: string;
-        urlSchemeZeroPadding: {};
-        subdomains: string | Array<string>
-        proxy: {};
-        credit: Credit | string;
-        minimumLevel: number;
-        maximumLevel: number;
-        rectangle: Rectangle;
-        tilingScheme: TilingScheme;
-        ellipsoid: Ellipsoid;
-        tileWidth: number;
-        tileHeight: number;
-        hasAlphaChannel: boolean;
-        getFeatureInfoFormats: Array<GetFeatureInfoFormat>;
+    class UrlTemplateImageryProvider extends ImageryProvider {
+        readonly url: string;
+        readonly pickFeaturesUrl: string;
+        readonly urlSchemeZeroPadding: {};
+        readonly proxy: Proxy;
+        readonly credit: Credit;
+        readonly minimumLevel: number;
+        readonly maximumLevel: number;
+        readonly rectangle: Rectangle;
+        readonly tilingScheme: TilingScheme;
+        readonly tileWidth: number;
+        readonly tileHeight: number;
+        readonly hasAlphaChannel: boolean;
         enablePickFeatures: boolean;
-        errorEvent: Event;
-        ready: boolean;
-        readyPromise: Promise<boolean>;
-        tileDiscardPolicy: TileDiscardPolicy;
+        readonly errorEvent: Event;
+        readonly ready: boolean;
+        readonly readyPromise: Promise<boolean>;
+        readonly tileDiscardPolicy: TileDiscardPolicy;
 
         constructor(options: {
             url: string,
@@ -7237,7 +7235,7 @@ declare module Cesium {
             urlSchemeZeroPadding?: {},
             subdomains?: string | Array<string>
             proxy?: {},
-            credit?: Credit | string,
+            credit?: Credit,
             minimumLevel?: number,
             maximumLevel?: number,
             rectangle?: Rectangle,
@@ -7247,7 +7245,8 @@ declare module Cesium {
             tileHeight?: number,
             hasAlphaChannel?: boolean,
             getFeatureInfoFormats?: Array<GetFeatureInfoFormat>,
-            enablePickFeatures?: boolean
+            enablePickFeatures?: boolean,
+            customTags?: any
         });
 
         getTileCredits(x: number, y: number, level: number): Array<Credit>;
