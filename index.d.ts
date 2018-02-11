@@ -5403,11 +5403,11 @@ declare module Cesium {
         modelMatrix: Matrix4;
         shadows: ShadowMode;
         show: boolean;
-        appearance: Appearance;
+        appearance: Appearance | any;
 
         constructor(options?: {
             geometryInstances?: any[] | GeometryInstance;
-            appearance?: Appearance;
+            appearance?: Appearance | any;
             show?: boolean;
             modelMatrix?: Matrix4;
             vertexCacheOptimize?: boolean;
