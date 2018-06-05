@@ -591,6 +591,9 @@ declare module Cesium {
         debugShowRenderingStatistics: boolean;
         debugShowMemoryUsage: boolean;
         debugShowUrl: boolean;
+        pointCloudShading: PointCloudShading;
+        readonly ready: boolean;
+        readonly readyPromise: Promise<boolean>;
 
         constructor(options: {
             url: string;
@@ -620,6 +623,7 @@ declare module Cesium {
             debugShowRenderingStatistics?: boolean;
             debugShowMemoryUsage?: boolean;
             debugShowUrl?: boolean;
+            pointCloudShading: PointCloudShadingOptions;
         });
     }
 
@@ -1782,6 +1786,29 @@ declare module Cesium {
 
         static getPointDistance(plane: Plane, point: Cartesian3): number;
     }
+    type PointCloudShadingOptions = {
+        attenuation: boolean;
+        geometricErrorScale: number;
+        maximumAttenuation: number;
+        baseResolution: number;
+        eyeDomeLighting: boolean;
+        eyeDomeLightingStrength: number;
+        eyeDomeLightingRadius: number;
+    };
+
+    class PointCloudShading {
+
+        attenuation: boolean;
+        baseResolution: number;
+        eyeDomeLighting: boolean;
+        eyeDomeLightingRadius: number;
+        eyeDomeLightingStrength: number;
+        geometricErrorScale: number;
+        maximumAttenuation: number;
+
+        constructor(options: PointCloudShadingOptions);
+        static isSupported(scene: Scene): boolean;
+    }
 
     class PolygonGeometry {
         packedLength: number;
@@ -2108,6 +2135,22 @@ declare module Cesium {
         constructor(statusCode?: number, response?: any, responseHeaders?: string | any);
 
         toString(): string;
+    }
+    type ResourceCallback = (resource: Resource, error: Error) => boolean | Promise<boolean>;
+
+    type ResourceOptions = {
+        url: string;
+        queryParameters: object;
+        templateValues: object;
+        headers: object;
+        proxy: DefaultProxy;
+        retryCallback: ResourceCallback;
+        retryAttempts: number;
+        request: any; // Cesium.Request
+    };
+
+    class Resource {
+        constructor(options: string | ResourceOptions);
     }
 
     class RuntimeError {
@@ -3153,7 +3196,7 @@ declare module Cesium {
         path?: PathGraphics;
         point?: PointGraphics;
         polygon?: PolygonGraphics | PolygonGraphicsOptions;
-        polyline?: PolylineGraphics;
+        polyline?: PolylineGraphics | PolylineGraphicsOptions;
         polylineVolume?: PolylineVolumeGraphics;
         properties?: { [key: string]: string | number | boolean };
         rectangle?: RectangleGraphics;
@@ -3677,6 +3720,15 @@ declare module Cesium {
         equals(other?: Property): boolean;
     }
 
+    type PolylineGraphicsOptions = {
+        positions?: Array<Cartesian3>;
+        followSurface?: Property;
+        width?: number;
+        show?: Property;
+        material?: MaterialProperty;
+        granularity?: Property;
+    };
+
     class PolylineGraphics {
         definitionChanged: Event;
         show: Property;
@@ -3686,7 +3738,7 @@ declare module Cesium {
         followSurface: Property;
         granularity: Property;
 
-        constructor(options?: { positions?: Array<Cartesian3>; followSurface?: Property; width?: number; show?: Property; material?: MaterialProperty; granularity?: Property });
+        constructor(options?: PolylineGraphicsOptions);
 
         clone(result?: PolylineGraphics): PolylineGraphics;
 
@@ -5625,6 +5677,8 @@ declare module Cesium {
         pick(windowPosition: Cartesian2, width?: number, height?: number): any;
 
         pickPosition(windowPosition: Cartesian2, result?: Cartesian3): Cartesian3;
+
+        requestRender(): void;
     }
 
     class ScreenSpaceCameraController {
@@ -6492,6 +6546,7 @@ declare module Cesium {
         terrainShadows?: ShadowMode;
         mapMode2D?: MapMode2D;
         projectionPicker?: boolean | any;
+        maximumRenderTimeChange: number;
     }
 
     class VRButton {
