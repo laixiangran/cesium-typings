@@ -2138,16 +2138,16 @@ declare module Cesium {
     }
     type ResourceCallback = (resource: Resource, error: Error) => boolean | Promise<boolean>;
 
-    type ResourceOptions = Partial<{
+    type ResourceOptions = {
         url: string;
-        queryParameters: object;
-        templateValues: object;
-        headers: object;
-        proxy: DefaultProxy;
-        retryCallback: ResourceCallback;
-        retryAttempts: number;
-        request: any; // Cesium.Request
-    }>;
+        queryParameters?: object;
+        templateValues?: object;
+        headers?: object;
+        proxy?: DefaultProxy;
+        retryCallback?: ResourceCallback;
+        retryAttempts?: number;
+        request?: any; // Cesium.Request
+    };
 
     class Resource {
         constructor(options: string | ResourceOptions);
