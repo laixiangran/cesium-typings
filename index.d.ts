@@ -596,7 +596,7 @@ declare module Cesium {
         readonly readyPromise: Promise<boolean>;
 
         constructor(options: {
-            url: string;
+            url: string | Resource;
             show?: boolean;
             modelMatrix?: Matrix4;
             shadows?: ShadowMode;
@@ -623,7 +623,7 @@ declare module Cesium {
             debugShowRenderingStatistics?: boolean;
             debugShowMemoryUsage?: boolean;
             debugShowUrl?: boolean;
-            pointCloudShading: PointCloudShadingOptions;
+            pointCloudShading?: PointCloudShadingOptions;
         });
     }
 
@@ -1786,7 +1786,7 @@ declare module Cesium {
 
         static getPointDistance(plane: Plane, point: Cartesian3): number;
     }
-    type PointCloudShadingOptions = {
+    type PointCloudShadingOptions = Partial<{
         attenuation: boolean;
         geometricErrorScale: number;
         maximumAttenuation: number;
@@ -1794,7 +1794,7 @@ declare module Cesium {
         eyeDomeLighting: boolean;
         eyeDomeLightingStrength: number;
         eyeDomeLightingRadius: number;
-    };
+    }>;
 
     class PointCloudShading {
 
@@ -2140,13 +2140,13 @@ declare module Cesium {
 
     type ResourceOptions = {
         url: string;
-        queryParameters: object;
-        templateValues: object;
-        headers: object;
-        proxy: DefaultProxy;
-        retryCallback: ResourceCallback;
-        retryAttempts: number;
-        request: any; // Cesium.Request
+        queryParameters?: object;
+        templateValues?: object;
+        headers?: object;
+        proxy?: DefaultProxy;
+        retryCallback?: ResourceCallback;
+        retryAttempts?: number;
+        request?: any; // Cesium.Request
     };
 
     class Resource {
@@ -3646,7 +3646,7 @@ declare module Cesium {
     }
 
     class PolygonGraphicsOptions {
-        hierarchy?: Property | PolygonHierarchy;
+        hierarchy?: Property | PolygonHierarchy | Cartesian3[];
         height?: number;
         extrudedHeight?: Property | number;
         show?: Property | boolean;
@@ -6525,10 +6525,10 @@ declare module Cesium {
         imageryProviderViewModels?: ProviderViewModel[];
         selectedTerrainProviderViewModel?: ProviderViewModel;
         terrainProviderViewModels?: ProviderViewModel[];
-        imageryProvider?: ImageryProvider;
-        terrainProvider?: TerrainProvider;
-        skyBox?: SkyBox;
-        skyAtmosphere?: SkyAtmosphere;
+        imageryProvider?: ImageryProvider | boolean;
+        terrainProvider?: TerrainProvider | boolean;
+        skyBox?: SkyBox | boolean;
+        skyAtmosphere?: SkyAtmosphere | boolean;
         fullscreenElement?: Element | string;
         useDefaultRenderLoop?: boolean;
         targetFrameRate?: number;
@@ -6546,7 +6546,8 @@ declare module Cesium {
         terrainShadows?: ShadowMode;
         mapMode2D?: MapMode2D;
         projectionPicker?: boolean | any;
-        maximumRenderTimeChange: number;
+        requestRenderMode?: boolean;
+        maximumRenderTimeChange?: number;
     }
 
     class VRButton {
