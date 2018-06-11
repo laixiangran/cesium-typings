@@ -679,6 +679,12 @@ declare module Cesium {
         static unpack(array: number[], startingIndex?: number, result?: CircleOutlineGeometry): CircleOutlineGeometry;
     }
 
+    class ClassificationType {
+        static BOTH: number;
+        static CESIUM_3D_TILE: number;
+        static TERRAIN: number
+    }
+
     class Clock {
         startTime: JulianDate;
         stopTime: JulianDate;
