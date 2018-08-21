@@ -6513,17 +6513,17 @@ declare module Cesium {
     }
 
     class ViewerOptions {
-        animation?: boolean | any;
-        baseLayerPicker?: boolean | any;
-        fullscreenButton?: boolean | any;
-        vrButton?: boolean | any;
-        geocoder?: boolean | any;
-        homeButton?: boolean | any;
-        infoBox?: boolean | any;
-        sceneModePicker?: boolean | any;
-        selectionIndicator?: boolean | any;
-        timeline?: boolean | any;
-        navigationHelpButton?: boolean | any;
+        animation?: boolean;
+        baseLayerPicker?: boolean;
+        fullscreenButton?: boolean;
+        vrButton?: boolean;
+        geocoder?: boolean;
+        homeButton?: boolean;
+        infoBox?: boolean;
+        sceneModePicker?: boolean;
+        selectionIndicator?: boolean;
+        timeline?: boolean;
+        navigationHelpButton?: boolean;
         navigationInstructionsInitiallyVisible?: boolean;
         scene3DOnly?: boolean;
         clockViewModel?: ClockViewModel;
@@ -6533,7 +6533,7 @@ declare module Cesium {
         terrainProviderViewModels?: ProviderViewModel[];
         imageryProvider?: ImageryProvider | boolean;
         terrainProvider?: TerrainProvider | boolean;
-        skyBox?: SkyBox | boolean;
+        skyBox?: SkyBox | undefined;
         skyAtmosphere?: SkyAtmosphere | boolean;
         fullscreenElement?: Element | string;
         useDefaultRenderLoop?: boolean;
@@ -6543,7 +6543,7 @@ declare module Cesium {
         contextOptions?: any;
         sceneMode?: SceneMode;
         mapProjection?: MapProjection;
-        globe?: Globe;
+        globe?: Globe | boolean;
         orderIndependentTranslucency?: boolean;
         creditContainer?: Element | string;
         dataSources?: DataSourceCollection;
@@ -6551,7 +6551,7 @@ declare module Cesium {
         shadows?: boolean;
         terrainShadows?: ShadowMode;
         mapMode2D?: MapMode2D;
-        projectionPicker?: boolean | any;
+        projectionPicker?: boolean;
         requestRenderMode?: boolean;
         maximumRenderTimeChange?: number;
     }
