@@ -6517,7 +6517,7 @@ declare module Cesium {
         baseLayerPicker?: boolean;
         fullscreenButton?: boolean;
         vrButton?: boolean;
-        geocoder?: boolean;
+        geocoder?: boolean | GeocoderService[];
         homeButton?: boolean;
         infoBox?: boolean;
         sceneModePicker?: boolean;
@@ -6526,6 +6526,7 @@ declare module Cesium {
         navigationHelpButton?: boolean;
         navigationInstructionsInitiallyVisible?: boolean;
         scene3DOnly?: boolean;
+        shouldAnimate?: boolean;
         clockViewModel?: ClockViewModel;
         selectedImageryProviderViewModel?: ProviderViewModel;
         imageryProviderViewModels?: ProviderViewModel[];
