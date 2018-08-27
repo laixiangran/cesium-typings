@@ -3729,20 +3729,29 @@ declare module Cesium {
     type PolylineGraphicsOptions = {
         positions?: Array<Cartesian3>;
         followSurface?: any;
+        clampToGround?: any;
         width?: number;
         show?: any;
         material?: MaterialProperty;
+        depthFailMaterial?: any;
         granularity?: any;
+        shadows?: any;
+        distanceDisplayCondition?: any;
+        zIndex?: any;
     };
 
     class PolylineGraphics {
-        definitionChanged: Event;
-        show: any;
-        material: MaterialProperty;
+        readonly definitionChanged: Event;
+        clampToGround: any;
+        depthFailMaterial?: any;
+        distanceDisplayCondition: any;
+        followSurface?: any;
+        granularity?: any;
+        material: any;
         positions: any;
-        width: number;
-        followSurface: any;
-        granularity: any;
+        shadows : any;
+        show: any;
+        width: any;
 
         constructor(options?: PolylineGraphicsOptions);
 
