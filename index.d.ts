@@ -2550,46 +2550,46 @@ declare module Cesium {
     }
 
     type BillboardGraphicsOptions = {
-        image?: Property | String | HTMLCanvasElement;
-        show?: Property | boolean;
-        scale?: Property | number;
-        horizontalOrigin?: Property | HorizontalOrigin;
-        verticalOrigin?: Property | VerticalOrigin;
-        eyeOffset?: Property;
-        pixelOffset?: Property | Cartesian2;
-        rotation?: Property;
-        alignedAxis?: Property;
-        width?: Property | number;
-        height?: Property | number;
-        color?: Property;
-        scaleByDistance?: Property | NearFarScalar;
-        translucencyByDistance?: Property | NearFarScalar;
-        pixelOffsetScaleByDistance?: Property | NearFarScalar;
-        imageSubRegion?: Property
+        image?: any | String | HTMLCanvasElement;
+        show?: any | boolean;
+        scale?: any | number;
+        horizontalOrigin?: any | HorizontalOrigin;
+        verticalOrigin?: any | VerticalOrigin;
+        eyeOffset?: any;
+        pixelOffset?: any | Cartesian2;
+        rotation?: any;
+        alignedAxis?: any;
+        width?: any | number;
+        height?: any | number;
+        color?: any;
+        scaleByDistance?: any | NearFarScalar;
+        translucencyByDistance?: any | NearFarScalar;
+        pixelOffsetScaleByDistance?: any | NearFarScalar;
+        imageSubRegion?: any
     }
 
     class BillboardGraphics {
         readonly definitionChanged: Event;
-        disableDepthTestDistance: Property | any;
-        distanceDisplayCondition: Property | any;
-        heightReference: Property | any;
-        sizeInMeters: Property | any;
-        image: Property | any;
-        imageSubRegion: Property | any;
-        scale: Property | any;
-        rotation: Property | any;
-        alignedAxis: Property | any;
-        horizontalOrigin: Property | any;
-        verticalOrigin: Property | any;
-        color: Property | any;
-        eyeOffset: Property | any;
-        pixelOffset: Property | any;
-        show: Property | any;
-        width: Property | any;
-        height: Property | any;
-        scaleByDistance: Property | any;
-        translucencyByDistance: Property | any;
-        pixelOffsetScaleByDistance: Property | any;
+        disableDepthTestDistance: any | any;
+        distanceDisplayCondition: any | any;
+        heightReference: any | any;
+        sizeInMeters: any | any;
+        image: any | any;
+        imageSubRegion: any | any;
+        scale: any | any;
+        rotation: any | any;
+        alignedAxis: any | any;
+        horizontalOrigin: any | any;
+        verticalOrigin: any | any;
+        color: any | any;
+        eyeOffset: any | any;
+        pixelOffset: any | any;
+        show: any | any;
+        width: any | any;
+        height: any | any;
+        scaleByDistance: any | any;
+        translucencyByDistance: any | any;
+        pixelOffsetScaleByDistance: any | any;
 
         constructor(options?: BillboardGraphicsOptions);
 
@@ -2615,7 +2615,7 @@ declare module Cesium {
         fillMaterialProperty: MaterialProperty;
         outlineEnabled: boolean;
         hasConstantOutline: boolean;
-        outlineColorProperty: Property;
+        outlineColorProperty: any;
         outlineWidth: number;
         isDynamic: boolean;
         isClosed: boolean;
@@ -2642,15 +2642,15 @@ declare module Cesium {
 
     class BoxGraphics {
         definitionChanged: Event;
-        show: Property;
-        dimensions: Property;
+        show: any;
+        dimensions: any;
         material: MaterialProperty;
-        fill: Property;
-        outline: Property;
-        outlineColor: Property;
-        outlineWidth: Property;
+        fill: any;
+        outline: any;
+        outlineColor: any;
+        outlineWidth: any;
 
-        constructor(options?: { dimensions?: Property; show?: Property; fill?: Property; material?: MaterialProperty; outline?: Property; outlineColor?: Property; outlineWidth?: Property });
+        constructor(options?: { dimensions?: any; show?: any; fill?: any; material?: MaterialProperty; outline?: any; outlineColor?: any; outlineWidth?: any });
 
         clone(result?: BoxGraphics): BoxGraphics;
 
@@ -2667,7 +2667,7 @@ declare module Cesium {
 
         setCallback(callback: CallbackProperty.Callback, isConstant: boolean): void;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     module CallbackProperty {
@@ -2677,31 +2677,31 @@ declare module Cesium {
     class CheckerboardMaterialProperty {
         isConstant: boolean;
         definitionChanged: Event;
-        evenColor: Property;
-        oddColor: Property;
-        repeat: Property;
+        evenColor: any;
+        oddColor: any;
+        repeat: any;
 
-        constructor(options?: { evenColor?: Property; oddColor?: Property; repeat?: Property });
+        constructor(options?: { evenColor?: any; oddColor?: any; repeat?: any });
 
         getType(time: JulianDate): string;
 
         getValue(time: JulianDate, result?: any): any;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class ColorMaterialProperty {
         isConstant: boolean;
         definitionChanged: Event;
-        color: Property;
+        color: any;
 
-        constructor(color?: Property);
+        constructor(color?: any);
 
         getType(time: JulianDate): string;
 
         getValue(time: JulianDate, result?: any): any;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class CompositeEntityCollection {
@@ -2753,7 +2753,7 @@ declare module Cesium {
 
         getValue(time: JulianDate, result?: any): any;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class CompositePositionProperty {
@@ -2766,7 +2766,7 @@ declare module Cesium {
 
         getValueInReferenceFrame(time: JulianDate, referenceFrame: ReferenceFrame, result?: Cartesian3): Cartesian3;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class CompositeProperty {
@@ -2776,7 +2776,7 @@ declare module Cesium {
 
         getValue(time: JulianDate, result?: any): any;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class ConstantPositionProperty {
@@ -2792,7 +2792,7 @@ declare module Cesium {
 
         getValueInReferenceFrame(time: JulianDate, referenceFrame: ReferenceFrame, result?: Cartesian3): Cartesian3;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class ConstantProperty {
@@ -2805,7 +2805,7 @@ declare module Cesium {
 
         setValue(value: any): void;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class CorridorGeometryUpdater {
@@ -2815,7 +2815,7 @@ declare module Cesium {
         fillMaterialProperty: MaterialProperty;
         outlineEnabled: boolean;
         hasConstantOutline: boolean;
-        outlineColorProperty: Property;
+        outlineColorProperty: any;
         outlineWidth: number;
         isDynamic: boolean;
         isClosed: boolean;
@@ -2842,20 +2842,20 @@ declare module Cesium {
 
     class CorridorGraphics {
         definitionChanged: Event;
-        show: Property;
+        show: any;
         material: MaterialProperty;
-        positions: Property;
-        height: Property;
-        extrudedHeight: Property;
-        granularity: Property;
-        width: Property;
-        fill: Property;
-        outline: Property;
-        outlineColor: Property;
-        outlineWidth: Property;
-        cornerType: Property;
+        positions: any;
+        height: any;
+        extrudedHeight: any;
+        granularity: any;
+        width: any;
+        fill: any;
+        outline: any;
+        outlineColor: any;
+        outlineWidth: any;
+        cornerType: any;
 
-        constructor(options?: { positions?: Property; width?: Property; cornerType?: Property; height?: Property; extrudedHeight?: Property; show?: Property; fill?: Property; material?: MaterialProperty; outline?: Property; outlineColor?: Property; outlineWidth?: Property; granularity?: Property });
+        constructor(options?: { positions?: any; width?: any; cornerType?: any; height?: any; extrudedHeight?: any; show?: any; fill?: any; material?: MaterialProperty; outline?: any; outlineColor?: any; outlineWidth?: any; granularity?: any });
 
         clone(result?: CorridorGraphics): CorridorGraphics;
 
@@ -2881,7 +2881,7 @@ declare module Cesium {
         fillMaterialProperty: MaterialProperty;
         outlineEnabled: boolean;
         hasConstantOutline: boolean;
-        outlineColorProperty: Property;
+        outlineColorProperty: any;
         outlineWidth: number;
         isDynamic: boolean;
         isClosed: boolean;
@@ -2908,19 +2908,19 @@ declare module Cesium {
 
     class CylinderGraphics {
         definitionChanged: Event;
-        length: Property;
-        topRadius: Property;
-        bottomRadius: Property;
-        numberOfVerticalLines: Property;
-        slices: Property;
-        show: Property;
+        length: any;
+        topRadius: any;
+        bottomRadius: any;
+        numberOfVerticalLines: any;
+        slices: any;
+        show: any;
         material: MaterialProperty;
-        fill: Property;
-        outline: Property;
-        outlineColor: Property;
-        outlineWidth: Property;
+        fill: any;
+        outline: any;
+        outlineColor: any;
+        outlineWidth: any;
 
-        constructor(options?: { length?: Property; topRadius?: Property; bottomRadius?: Property; show?: Property; fill?: Property; material?: MaterialProperty; outline?: Property; outlineColor?: Property; outlineWidth?: Property; numberOfVerticalLines?: Property; slices?: Property });
+        constructor(options?: { length?: any; topRadius?: any; bottomRadius?: any; show?: any; fill?: any; material?: MaterialProperty; outline?: any; outlineColor?: any; outlineWidth?: any; numberOfVerticalLines?: any; slices?: any });
 
         clone(result?: CylinderGraphics): CylinderGraphics;
 
@@ -3039,7 +3039,7 @@ declare module Cesium {
         fillMaterialProperty: MaterialProperty;
         outlineEnabled: boolean;
         hasConstantOutline: boolean;
-        outlineColorProperty: Property;
+        outlineColorProperty: any;
         outlineWidth: number;
         isDynamic: boolean;
         isClosed: boolean;
@@ -3066,22 +3066,22 @@ declare module Cesium {
 
     class EllipseGraphics {
         definitionChanged: Event;
-        semiMajorAxis: Property;
-        semiMinorAxis: Property;
-        rotation: Property;
-        show: Property;
+        semiMajorAxis: any;
+        semiMinorAxis: any;
+        rotation: any;
+        show: any;
         material: MaterialProperty;
-        height: Property;
-        extrudedHeight: Property;
-        granularity: Property;
-        stRotation: Property;
-        fill: Property;
-        outline: Property;
-        outlineColor: Property;
-        outlineWidth: Property;
-        numberOfVerticalLines: Property;
+        height: any;
+        extrudedHeight: any;
+        granularity: any;
+        stRotation: any;
+        fill: any;
+        outline: any;
+        outlineColor: any;
+        outlineWidth: any;
+        numberOfVerticalLines: any;
 
-        constructor(options?: { semiMajorAxis?: number; semiMinorAxis?: number; height?: Property; extrudedHeight?: Property; show?: Property; fill?: Property; material?: MaterialProperty; outline?: Property; outlineColor?: Property; outlineWidth?: Property; numberOfVerticalLines?: Property; rotation?: Property; stRotation?: Property; granularity?: Property });
+        constructor(options?: { semiMajorAxis?: number; semiMinorAxis?: number; height?: any; extrudedHeight?: any; show?: any; fill?: any; material?: MaterialProperty; outline?: any; outlineColor?: any; outlineWidth?: any; numberOfVerticalLines?: any; rotation?: any; stRotation?: any; granularity?: any });
 
         clone(result?: EllipseGraphics): EllipseGraphics;
 
@@ -3095,7 +3095,7 @@ declare module Cesium {
         fillMaterialProperty: MaterialProperty;
         outlineEnabled: boolean;
         hasConstantOutline: boolean;
-        outlineColorProperty: Property;
+        outlineColorProperty: any;
         outlineWidth: number;
         isDynamic: boolean;
         isClosed: boolean;
@@ -3122,18 +3122,18 @@ declare module Cesium {
 
     class EllipsoidGraphics {
         definitionChanged: Event;
-        show: Property;
-        radii: Property;
+        show: any;
+        radii: any;
         material: MaterialProperty;
-        fill: Property;
-        outline: Property;
-        outlineColor: Property;
-        outlineWidth: Property;
-        stackPartitions: Property;
-        slicePartitions: Property;
-        subdivisions: Property;
+        fill: any;
+        outline: any;
+        outlineColor: any;
+        outlineWidth: any;
+        stackPartitions: any;
+        slicePartitions: any;
+        subdivisions: any;
 
-        constructor(options?: { radii?: Property; show?: Property; fill?: Property; material?: MaterialProperty; outline?: Property; outlineColor?: Property; outlineWidth?: Property; subdivisions?: Property; stackPartitions?: Property; slicePartitions?: Property });
+        constructor(options?: { radii?: any; show?: any; fill?: any; material?: MaterialProperty; outline?: any; outlineColor?: any; outlineWidth?: any; subdivisions?: any; stackPartitions?: any; slicePartitions?: any });
 
         clone(result?: EllipsoidGraphics): EllipsoidGraphics;
 
@@ -3153,13 +3153,13 @@ declare module Cesium {
         box: BoxGraphics;
         corridor: CorridorGraphics;
         cylinder: CylinderGraphics;
-        description: Property | any;
+        description: any | any;
         ellipse: EllipseGraphics;
         ellipsoid: EllipsoidGraphics;
         entityCollection: EntityCollection;
         label: LabelGraphics;
         model: ModelGraphics;
-        orientation: Property;
+        orientation: any;
         path: PathGraphics;
         point: PointGraphics;
         polygon: PolygonGraphics;
@@ -3168,7 +3168,7 @@ declare module Cesium {
         position: PositionProperty;
         properties: PropertyBag;
         rectangle: RectangleGraphics;
-        viewFrom: Property;
+        viewFrom: any;
         wall: WallGraphics;
 
         constructor(options?: EntityOptions);
@@ -3186,10 +3186,10 @@ declare module Cesium {
         id?: string;
         name?: string;
         show?: boolean;
-        description?: Property | string;
-        position?: Property | Cartesian3;
-        orientation?: Property | any;
-        viewFrom?: Property | any;
+        description?: any | string;
+        position?: any | Cartesian3;
+        orientation?: any | any;
+        viewFrom?: any | any;
         parent?: Entity;
         billboard?: BillboardGraphics | BillboardGraphicsOptions;
         box?: BoxGraphics;
@@ -3328,7 +3328,7 @@ declare module Cesium {
         fillMaterialProperty: MaterialProperty;
         outlineEnabled: boolean;
         hasConstantOutline: boolean;
-        outlineColorProperty: Property;
+        outlineColorProperty: any;
         outlineWidth: number;
         isDynamic: boolean;
         isClosed: boolean;
@@ -3367,33 +3367,33 @@ declare module Cesium {
         isConstant: boolean;
         definitionChanged: Event;
         color: Color;
-        cellAlpha: Property;
-        lineCount: Property;
-        lineThickness: Property;
-        lineOffset: Property;
+        cellAlpha: any;
+        lineCount: any;
+        lineThickness: any;
+        lineOffset: any;
 
-        constructor(options?: { color?: Property; cellAlpha?: Property; lineCount?: Property; lineThickness?: Property; lineOffset?: Property });
+        constructor(options?: { color?: any; cellAlpha?: any; lineCount?: any; lineThickness?: any; lineOffset?: any });
 
         getType(time: JulianDate): string;
 
         getValue(time: JulianDate, result?: any): any;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class ImageMaterialProperty {
         isConstant: boolean;
         definitionChanged: Event;
-        image: Property;
-        repeat: Property;
+        image: any;
+        repeat: any;
 
-        constructor(options?: { image?: Property; repeat?: Property });
+        constructor(options?: { image?: any; repeat?: any });
 
         getType(time: JulianDate): string;
 
         getValue(time: JulianDate, result?: any): any;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class KmlDataSource extends DataSource {
@@ -3437,23 +3437,23 @@ declare module Cesium {
 
     class LabelGraphics {
         readonly definitionChanged: Event;
-        showBackground: Property | boolean;
-        distanceDisplayCondition: Property | any;
-        disableDepthTestDistance: Property | any;
-        text: Property;
-        font: Property;
-        style: Property;
-        fillColor: Property;
-        outlineColor: Property;
-        outlineWidth: Property;
-        horizontalOrigin: Property;
-        verticalOrigin: Property;
-        eyeOffset: Property;
-        pixelOffset: Property;
-        scale: Property;
-        show: Property;
-        translucencyByDistance: Property;
-        pixelOffsetScaleByDistance: Property;
+        showBackground: any | boolean;
+        distanceDisplayCondition: any | any;
+        disableDepthTestDistance: any | any;
+        text: any;
+        font: any;
+        style: any;
+        fillColor: any;
+        outlineColor: any;
+        outlineWidth: any;
+        horizontalOrigin: any;
+        verticalOrigin: any;
+        eyeOffset: any;
+        pixelOffset: any;
+        scale: any;
+        show: any;
+        translucencyByDistance: any;
+        pixelOffsetScaleByDistance: any;
 
         constructor(options?: LabelGraphicsOptions);
 
@@ -3463,25 +3463,25 @@ declare module Cesium {
     }
 
     class LabelGraphicsOptions {
-        text?: Property | string;
-        font?: Property | string;
-        style?: Property;
-        fillColor?: Property | Color;
-        backgroundColor?: Property | Color;
-        outlineColor?: Property | Color;
-        outlineWidth?: Property | number;
-        show?: Property | boolean;
-        showBackground?: Property | boolean;
-        scale?: Property | NearFarScalar | any;
-        scaleByDistance?: Property | NearFarScalar;
-        horizontalOrigin?: Property | HorizontalOrigin;
-        verticalOrigin?: Property | VerticalOrigin;
-        eyeOffset?: Property | Cartesian2;
-        pixelOffset?: Property | Cartesian2;
-        translucencyByDistance?: Property | NearFarScalar;
-        pixelOffsetScaleByDistance?: Property | NearFarScalar;
-        distanceDisplayCondition?: Property | DistanceDisplayCondition;
-        disableDepthTestDistance?: Property | number;
+        text?: any | string;
+        font?: any | string;
+        style?: any;
+        fillColor?: any | Color;
+        backgroundColor?: any | Color;
+        outlineColor?: any | Color;
+        outlineWidth?: any | number;
+        show?: any | boolean;
+        showBackground?: any | boolean;
+        scale?: any | NearFarScalar | any;
+        scaleByDistance?: any | NearFarScalar;
+        horizontalOrigin?: any | HorizontalOrigin;
+        verticalOrigin?: any | VerticalOrigin;
+        eyeOffset?: any | Cartesian2;
+        pixelOffset?: any | Cartesian2;
+        translucencyByDistance?: any | NearFarScalar;
+        pixelOffsetScaleByDistance?: any | NearFarScalar;
+        distanceDisplayCondition?: any | DistanceDisplayCondition;
+        disableDepthTestDistance?: any | number;
     }
 
     class LabelVisualizer {
@@ -3507,13 +3507,13 @@ declare module Cesium {
 
     class ModelGraphics {
         readonly definitionChanged: Event;
-        show: Property | boolean;
-        scale: Property | number;
-        minimumPixelSize: Property | number;
-        uri: Property | string;
-        maximumScale: Property | number;
+        show: any | boolean;
+        scale: any | number;
+        minimumPixelSize: any | number;
+        uri: any | string;
+        maximumScale: any | number;
 
-        constructor(options?: { uri?: Property | string; show?: Property; scale?: Property | number; minimumPixelSize?: Property | number; maximumScale: Property | number });
+        constructor(options?: { uri?: any | string; show?: any; scale?: any | number; minimumPixelSize?: any | number; maximumScale: any | number });
 
         clone(result?: ModelGraphics): ModelGraphics;
 
@@ -3532,14 +3532,14 @@ declare module Cesium {
 
     class PathGraphics {
         definitionChanged: Event;
-        show: Property;
+        show: any;
         material: MaterialProperty;
-        width: Property;
-        resolution: Property;
-        leadTime: Property;
-        trailTime: Property;
+        width: any;
+        resolution: any;
+        leadTime: any;
+        trailTime: any;
 
-        constructor(options?: { leadTime?: Property; trailTime?: Property; show?: Property; width?: Property; material?: MaterialProperty; resolution?: Property });
+        constructor(options?: { leadTime?: any; trailTime?: any; show?: any; width?: any; material?: MaterialProperty; resolution?: any });
 
         clone(result?: PathGraphics): PathGraphics;
 
@@ -3557,15 +3557,15 @@ declare module Cesium {
     }
 
     class PointGraphics {
-        color: Property;
-        pixelSize: Property;
-        outlineColor: Property;
-        outlineWidth: Property;
-        show: Property | boolean;
-        scaleByDistance: Property;
-        translucencyByDistance: Property;
-        heightReference: Property;
-        distanceDisplayCondition: Property;
+        color: any;
+        pixelSize: any;
+        outlineColor: any;
+        outlineWidth: any;
+        show: any | boolean;
+        scaleByDistance: any;
+        translucencyByDistance: any;
+        heightReference: any;
+        distanceDisplayCondition: any;
 
         constructor(options?: PointGraphicsOptions);
 
@@ -3579,11 +3579,11 @@ declare module Cesium {
         pixelSize?: number;
         outlineColor?: Color;
         outlineWidth?: number;
-        show?: Property | boolean;
-        scaleByDistance?: Property | NearFarScalar;
-        translucencyByDistance?: Property | NearFarScalar;
+        show?: any | boolean;
+        scaleByDistance?: any | NearFarScalar;
+        translucencyByDistance?: any | NearFarScalar;
         heightReference?: HeightReference;
-        distanceDisplayCondition?: Property | number;
+        distanceDisplayCondition?: any | number;
     }
 
     class PointVisualizer {
@@ -3603,7 +3603,7 @@ declare module Cesium {
         fillMaterialProperty: MaterialProperty;
         outlineEnabled: boolean;
         hasConstantOutline: boolean;
-        outlineColorProperty: Property;
+        outlineColorProperty: any;
         outlineWidth: number;
         isDynamic: boolean;
         isClosed: boolean;
@@ -3630,19 +3630,19 @@ declare module Cesium {
 
     class PolygonGraphics {
         definitionChanged: Event;
-        show: Property | boolean;
+        show: any | boolean;
         material: MaterialProperty;
-        positions: Property;
-        hierarchy: Property;
-        height: Property;
-        extrudedHeight: Property;
-        granularity: Property;
-        stRotation: Property;
-        fill: Property;
-        outline: Property;
-        outlineColor: Property;
-        outlineWidth: Property;
-        perPositionHeight: Property;
+        positions: any;
+        hierarchy: any;
+        height: any;
+        extrudedHeight: any;
+        granularity: any;
+        stRotation: any;
+        fill: any;
+        outline: any;
+        outlineColor: any;
+        outlineWidth: any;
+        perPositionHeight: any;
 
         constructor(options?: PolygonGraphicsOptions);
 
@@ -3652,32 +3652,32 @@ declare module Cesium {
     }
 
     class PolygonGraphicsOptions {
-        hierarchy?: Property | PolygonHierarchy | Cartesian3[];
+        hierarchy?: any | PolygonHierarchy | Cartesian3[];
         height?: number;
-        extrudedHeight?: Property | number;
-        show?: Property | boolean;
-        fill?: Property | boolean;
+        extrudedHeight?: any | number;
+        show?: any | boolean;
+        fill?: any | boolean;
         material?: MaterialProperty | Color;
         outline?: boolean;
-        outlineColor?: Property | Color;
+        outlineColor?: any | Color;
         outlineWidth?: number;
-        stRotation?: Property | number;
-        granularity?: Property | number;
-        perPositionHeight?: Property | boolean;
+        stRotation?: any | number;
+        granularity?: any | number;
+        perPositionHeight?: any | boolean;
     }
 
     class PolylineArrowMaterialProperty {
         isConstant: boolean;
         definitionChanged: Event;
-        color: Property;
+        color: any;
 
-        constructor(color?: Property);
+        constructor(color?: any);
 
         getType(time: JulianDate): string;
 
         getValue(time: JulianDate, result?: any): any;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class PolylineGeometryUpdater {
@@ -3687,7 +3687,7 @@ declare module Cesium {
         fillMaterialProperty: MaterialProperty;
         outlineEnabled: boolean;
         hasConstantOutline: boolean;
-        outlineColorProperty: Property;
+        outlineColorProperty: any;
         isDynamic: boolean;
         isClosed: boolean;
         geometryChanged: boolean;
@@ -3714,35 +3714,35 @@ declare module Cesium {
     class PolylineGlowMaterialProperty {
         isConstant: boolean;
         definitionChanged: Event;
-        color: Property;
-        glowPower: Property;
+        color: any;
+        glowPower: any;
 
-        constructor(options?: { color?: Property; glowPower?: Property });
+        constructor(options?: { color?: any; glowPower?: any });
 
         getType(time: JulianDate): string;
 
         getValue(time: JulianDate, result?: any): any;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     type PolylineGraphicsOptions = {
         positions?: Array<Cartesian3>;
-        followSurface?: Property;
+        followSurface?: any;
         width?: number;
-        show?: Property;
+        show?: any;
         material?: MaterialProperty;
-        granularity?: Property;
+        granularity?: any;
     };
 
     class PolylineGraphics {
         definitionChanged: Event;
-        show: Property;
+        show: any;
         material: MaterialProperty;
-        positions: Property;
+        positions: any;
         width: number;
-        followSurface: Property;
-        granularity: Property;
+        followSurface: any;
+        granularity: any;
 
         constructor(options?: PolylineGraphicsOptions);
 
@@ -3754,17 +3754,17 @@ declare module Cesium {
     class PolylineOutlineMaterialProperty {
         isConstant: boolean;
         definitionChanged: Event;
-        color: Property;
-        outlineColor: Property;
-        outlineWidth: Property;
+        color: any;
+        outlineColor: any;
+        outlineWidth: any;
 
-        constructor(options?: { color?: Property; outlineColor?: Property; outlineWidth?: Property });
+        constructor(options?: { color?: any; outlineColor?: any; outlineWidth?: any });
 
         getType(time: JulianDate): string;
 
         getValue(time: JulianDate, result?: any): any;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class PolylineVolumeGeometryUpdater {
@@ -3774,7 +3774,7 @@ declare module Cesium {
         fillMaterialProperty: MaterialProperty;
         outlineEnabled: boolean;
         hasConstantOutline: boolean;
-        outlineColorProperty: Property;
+        outlineColorProperty: any;
         outlineWidth: number;
         isDynamic: boolean;
         isClosed: boolean;
@@ -3801,18 +3801,18 @@ declare module Cesium {
 
     class PolylineVolumeGraphics {
         definitionChanged: Event;
-        show: Property;
+        show: any;
         material: MaterialProperty;
-        positions: Property;
-        shape: Property;
-        granularity: Property;
-        fill: Property;
-        outline: Property;
-        outlineColor: Property;
-        outlineWidth: Property;
-        cornerType: Property;
+        positions: any;
+        shape: any;
+        granularity: any;
+        fill: any;
+        outline: any;
+        outlineColor: any;
+        outlineWidth: any;
+        cornerType: any;
 
-        constructor(options?: { positions?: Property; shape?: Property; cornerType?: Property; show?: Property; fill?: Property; material?: MaterialProperty; outline?: Property; outlineColor?: Property; outlineWidth?: Property; granularity?: Property });
+        constructor(options?: { positions?: any; shape?: any; cornerType?: any; show?: any; fill?: any; material?: MaterialProperty; outline?: any; outlineColor?: any; outlineWidth?: any; granularity?: any });
 
         clone(result?: PolylineVolumeGraphics): PolylineVolumeGraphics;
 
@@ -3838,15 +3838,15 @@ declare module Cesium {
         definitionChanged: Event;
         referenceFrame: ReferenceFrame;
 
-        constructor(value?: Property[]);
+        constructor(value?: any[]);
 
         getValue(time?: JulianDate, result?: Cartesian3[]): Cartesian3[];
 
         getValueInReferenceFrame(time: JulianDate, referenceFrame: ReferenceFrame, result?: Cartesian3): Cartesian3;
 
-        setValue(value: Property[]): void;
+        setValue(value: any[]): void;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class Property {
@@ -3855,24 +3855,24 @@ declare module Cesium {
 
         getValue(time: JulianDate, result?: any): any;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class PropertyArray {
         isConstant: boolean;
         definitionChanged: Event;
 
-        constructor(value?: Property[]);
+        constructor(value?: any[]);
 
         getValue(time?: JulianDate, result?: any[]): any[];
 
-        setValue(value: Property[]): void;
+        setValue(value: any[]): void;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     interface ObjectLike {
-        [key: string]: Property;
+        [key: string]: any;
     }
 
     type PropertyBag = ObjectLike & {
@@ -3894,7 +3894,7 @@ declare module Cesium {
         fillMaterialProperty: MaterialProperty;
         outlineEnabled: boolean;
         hasConstantOutline: boolean;
-        outlineColorProperty: Property;
+        outlineColorProperty: any;
         outlineWidth: number;
         isDynamic: boolean;
         isClosed: boolean;
@@ -3921,22 +3921,22 @@ declare module Cesium {
 
     class RectangleGraphics {
         definitionChanged: Event;
-        show: Property;
-        coordinates: Property;
+        show: any;
+        coordinates: any;
         material: MaterialProperty;
-        height: Property;
-        extrudedHeight: Property;
-        granularity: Property;
-        stRotation: Property;
-        rotation: Property;
-        fill: Property;
-        outline: Property;
-        outlineColor: Property;
-        outlineWidth: Property;
-        closeTop: Property;
-        closeBottom: Property;
+        height: any;
+        extrudedHeight: any;
+        granularity: any;
+        stRotation: any;
+        rotation: any;
+        fill: any;
+        outline: any;
+        outlineColor: any;
+        outlineWidth: any;
+        closeTop: any;
+        closeBottom: any;
 
-        constructor(options?: { coordinates?: Property; height?: Property; extrudedHeight?: Property; closeTop?: Property; closeBottom?: Property; show?: Property; fill?: Property; material?: MaterialProperty; outline?: Property; outlineColor?: Property; outlineWidth?: Property; rotation?: Property; stRotation?: Property; granularity?: Property });
+        constructor(options?: { coordinates?: any; height?: any; extrudedHeight?: any; closeTop?: any; closeBottom?: any; show?: any; fill?: any; material?: MaterialProperty; outline?: any; outlineColor?: any; outlineWidth?: any; rotation?: any; stRotation?: any; granularity?: any });
 
         clone(result?: RectangleGraphics): RectangleGraphics;
 
@@ -3950,7 +3950,7 @@ declare module Cesium {
         targetId: string;
         targetCollection: EntityCollection;
         targetPropertyNames: string[];
-        resolvedProperty: Property;
+        resolvedProperty: any;
 
         constructor(targetCollection: EntityCollection, targetId: string, targetPropertyNames: string);
 
@@ -3960,7 +3960,7 @@ declare module Cesium {
 
         getType(time: JulianDate): string;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
 
         static fromString(targetCollection: Entity, referenceString: string): ReferenceProperty;
     }
@@ -3991,7 +3991,7 @@ declare module Cesium {
 
         addSamplesPackedArray(packedSamples: number[], epoch?: JulianDate): void;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class SampledProperty {
@@ -4018,25 +4018,25 @@ declare module Cesium {
 
         addSamplesPackedArray(packedSamples: number[], epoch?: JulianDate): void;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class StripeMaterialProperty {
         isConstant: boolean;
         definitionChanged: Event;
-        orientation: Property;
+        orientation: any;
         evenColor: Color;
         oddColor: Color;
-        offset: Property;
+        offset: any;
         repeat: number;
 
-        constructor(options?: { evenColor?: Property; oddColor?: Property; repeat?: Property; offset?: Property; orientation?: Property });
+        constructor(options?: { evenColor?: any; oddColor?: any; repeat?: any; offset?: any; orientation?: any });
 
         getType(time: JulianDate): string;
 
         getValue(time: JulianDate, result?: any): any;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class TimeIntervalCollectionPositionProperty {
@@ -4051,7 +4051,7 @@ declare module Cesium {
 
         getValueInReferenceFrame(time: JulianDate, referenceFrame: ReferenceFrame, result?: Cartesian3): Cartesian3;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class TimeIntervalCollectionProperty {
@@ -4061,20 +4061,20 @@ declare module Cesium {
 
         getValue(time: JulianDate, result?: any): any;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class VelocityOrientationProperty {
         isConstant: boolean;
         definitionChanged: Event;
-        position: Property;
-        ellipsoid: Property;
+        position: any;
+        ellipsoid: any;
 
-        constructor(position?: Property, ellipsoid?: Ellipsoid);
+        constructor(position?: any, ellipsoid?: Ellipsoid);
 
         getValue(time?: JulianDate, result?: Quaternion): Quaternion;
 
-        equals(other?: Property): boolean;
+        equals(other?: any): boolean;
     }
 
     class Visualizer {
@@ -4092,7 +4092,7 @@ declare module Cesium {
         fillMaterialProperty: MaterialProperty;
         outlineEnabled: boolean;
         hasConstantOutline: boolean;
-        outlineColorProperty: Property;
+        outlineColorProperty: any;
         outlineWidth: number;
         isDynamic: boolean;
         isClosed: boolean;
@@ -4119,18 +4119,18 @@ declare module Cesium {
 
     class WallGraphics {
         definitionChanged: Event;
-        show: Property;
+        show: any;
         material: MaterialProperty;
-        positions: Property;
-        minimumHeights: Property;
-        maximumHeights: Property;
-        granularity: Property;
-        fill: Property;
-        outline: Property;
-        outlineColor: Property;
-        outlineWidth: Property;
+        positions: any;
+        minimumHeights: any;
+        maximumHeights: any;
+        granularity: any;
+        fill: any;
+        outline: any;
+        outlineColor: any;
+        outlineWidth: any;
 
-        constructor(options?: { positions?: Property; maximumHeights?: Property; minimumHeights?: Property; show?: Property; fill?: Property; material?: MaterialProperty; outline?: Property; outlineColor?: Property; outlineWidth?: Property; granularity?: Property });
+        constructor(options?: { positions?: any; maximumHeights?: any; minimumHeights?: any; show?: any; fill?: any; material?: MaterialProperty; outline?: any; outlineColor?: any; outlineWidth?: any; granularity?: any });
 
         clone(result?: WallGraphics): WallGraphics;
 
