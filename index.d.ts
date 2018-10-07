@@ -6673,7 +6673,7 @@ declare module Cesium {
 
     function createTaskProcessorWorker(workerFunction: createTaskProcessorWorker.WorkerFunction): createTaskProcessorWorker.TaskProcessorWorkerFunction;
 
-    function createWorldTerrain(options?: {requestVertexNormals?: boolean, requestWaterMask?: boolean}): void;
+    function createWorldTerrain(options?: {requestVertexNormals?: boolean, requestWaterMask?: boolean}): CesiumTerrainProvider;
 
     module createTaskProcessorWorker {
         type WorkerFunction = (parameters: any, transferableObjects: any[]) => any;
