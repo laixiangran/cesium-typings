@@ -1,10 +1,17 @@
 /**
- * Created by laixiangran on 2017/11/14.
+ * Created by laixiangran on 2018/10/08.
  * homepage：http://www.laixiangran.cn
- * Typescript definition for cesium 1.40
+ * Typescript definition for cesium 1.5x
  */
 
 declare module Cesium {
+
+    class Ion {
+        static defaultAccessToken: string;
+        static defaultServer: string;
+
+        constructor();
+    }
 
     type RenderState = any;
 
@@ -1153,21 +1160,22 @@ declare module Cesium {
         static fromPoints(ellipsoid: Ellipsoid, cartesians: Cartesian3): EllipsoidTangentPlane;
     }
 
-    class EllipsoidTerrainProvider {
-        errorEvent: Event;
+    class EllipsoidTerrainProvider extends TerrainProvider {
         credit: Credit;
-        tilingScheme: GeographicTilingScheme;
-        ready: boolean;
+        errorEvent: Event;
         hasWaterMask: boolean;
         hasVertexNormals: boolean;
+        ready: boolean;
+        readonly readyPromise: Promise<boolean>
+        tilingScheme: GeographicTilingScheme;
 
         constructor(options?: { tilingScheme?: TilingScheme; ellipsoid?: Ellipsoid });
-
-        requestTileGeometry(x: number, y: number, level: number, throttleRequests?: boolean): Promise<TerrainData>;
 
         getLevelMaximumGeometricError(level: number): number;
 
         getTileDataAvailable(x: number, y: number, level: number): boolean;
+
+        requestTileGeometry(x: number, y: number, level: number, request: Request): Promise<TerrainData>;
     }
 
     class Event {
@@ -1792,6 +1800,7 @@ declare module Cesium {
 
         static getPointDistance(plane: Plane, point: Cartesian3): number;
     }
+
     type PointCloudShadingOptions = Partial<{
         attenuation: boolean;
         geometricErrorScale: number;
@@ -1813,6 +1822,7 @@ declare module Cesium {
         maximumAttenuation: number;
 
         constructor(options: PointCloudShadingOptions);
+
         static isSupported(scene: Scene): boolean;
     }
 
@@ -2142,6 +2152,7 @@ declare module Cesium {
 
         toString(): string;
     }
+
     type ResourceCallback = (resource: Resource, error: Error) => boolean | Promise<boolean>;
 
     type ResourceOptions = {
@@ -2306,23 +2317,24 @@ declare module Cesium {
     }
 
     class TerrainProvider {
+        static heightmapTerrainQuality: number;
         credit: Credit;
         errorEvent: Event;
         hasVertexNormals: boolean;
         hasWaterMask: boolean;
         ready: boolean;
-        static heightmapTerrainQuality: number;
+        readonly readyPromise: Promise<boolean>;
         tilingScheme: TilingScheme;
+
+        static getEstimatedLevelZeroGeometricErrorForAHeightmap(ellipsoid: Ellipsoid, tileImageWidth: number, numberOfTilesAtLevelZero: number): number;
+
+        static getRegularGridIndices(width: number, height: number): Uint16Array;
 
         getLevelMaximumGeometricError(level: number): number;
 
         getTileDataAvailable(x: number, y: number, level: number): boolean;
 
         requestTileGeometry(x: number, y: number, level: number, request?: Request): Promise<TerrainData>;
-
-        static getEstimatedLevelZeroGeometricErrorForAHeightmap(ellipsoid: Ellipsoid, tileImageWidth: number, numberOfTilesAtLevelZero: number): number;
-
-        static getRegularGridIndices(width: number, height: number): Uint16Array;
     }
 
     class TileProviderError {
@@ -2437,21 +2449,46 @@ declare module Cesium {
         intersect(other: TimeIntervalCollection, dataComparer?: TimeInterval.DataComparer, mergeCallback?: TimeInterval.MergeCallback): TimeIntervalCollection;
     }
 
-    class VRTheWorldTerrainProvider {
-        errorEvent: Event;
-        credit: Credit;
-        tilingScheme: GeographicTilingScheme;
-        ready: boolean;
-        hasWaterMask: boolean;
+    class GoogleEarthEnterpriseTerrainProvider extends TerrainProvider {
+        readonly credit: Credit;
+        readonly errorEvent: Event;
         hasVertexNormals: boolean;
+        hasWaterMask: boolean;
+        readonly proxy: Proxy;
+        readonly ready: boolean;
+        readonly readyPromise: Promise<boolean>;
+        readonly tilingScheme: TilingScheme;
+        readonly url: string;
 
-        constructor(options: { url: string; proxy?: any; ellipsoid?: Ellipsoid; credit?: Credit | string });
-
-        requestTileGeometry(x: number, y: number, level: number, throttleRequests?: boolean): Promise<TerrainData>;
+        constructor(options: { url: Resource | string; metadata: GoogleEarthEnterpriseMetadata; ellipsoid?: Ellipsoid; credit?: Credit | string });
 
         getLevelMaximumGeometricError(level: number): number;
 
         getTileDataAvailable(x: number, y: number, level: number): boolean;
+
+        requestTileGeometry(x: number, y: number, level: number, request?: Request): Promise<TerrainData>;
+    }
+
+    class GoogleEarthEnterpriseMetadata {
+        constructor(resourceOrUrl: Resource | string);
+    }
+
+    class VRTheWorldTerrainProvider extends TerrainProvider {
+        credit: Credit;
+        errorEvent: Event;
+        hasVertexNormals: boolean;
+        hasWaterMask: boolean;
+        ready: boolean;
+        readonly readyPromise: Promise<boolean>;
+        tilingScheme: GeographicTilingScheme;
+
+        constructor(options: { url: string; proxy?: any; ellipsoid?: Ellipsoid; credit?: Credit | string });
+
+        getLevelMaximumGeometricError(level: number): number;
+
+        getTileDataAvailable(x: number, y: number, level: number): boolean;
+
+        requestTileGeometry(x: number, y: number, level: number, request?: Request): Promise<TerrainData>;
     }
 
     class VertexFormat {
@@ -3729,29 +3766,20 @@ declare module Cesium {
     type PolylineGraphicsOptions = {
         positions?: Array<Cartesian3>;
         followSurface?: any;
-        clampToGround?: any;
         width?: number;
         show?: any;
         material?: MaterialProperty;
-        depthFailMaterial?: any;
         granularity?: any;
-        shadows?: any;
-        distanceDisplayCondition?: any;
-        zIndex?: any;
     };
 
     class PolylineGraphics {
-        readonly definitionChanged: Event;
-        clampToGround: any;
-        depthFailMaterial?: any;
-        distanceDisplayCondition: any;
-        followSurface?: any;
-        granularity?: any;
-        material: any;
-        positions: any;
-        shadows : any;
+        definitionChanged: Event;
         show: any;
-        width: any;
+        material: MaterialProperty;
+        positions: any;
+        width: number;
+        followSurface: any;
+        granularity: any;
 
         constructor(options?: PolylineGraphicsOptions);
 
@@ -6682,7 +6710,7 @@ declare module Cesium {
 
     function createTaskProcessorWorker(workerFunction: createTaskProcessorWorker.WorkerFunction): createTaskProcessorWorker.TaskProcessorWorkerFunction;
 
-    function createWorldTerrain(options?: {requestVertexNormals?: boolean, requestWaterMask?: boolean}): CesiumTerrainProvider;
+    function createWorldTerrain(options?: { requestVertexNormals?: boolean, requestWaterMask?: boolean }): CesiumTerrainProvider;
 
     module createTaskProcessorWorker {
         type WorkerFunction = (parameters: any, transferableObjects: any[]) => any;

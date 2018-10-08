@@ -1,4 +1,4 @@
-# Typescript definition for [Cesium](https://cesiumjs.org/) v1.40
+# Typescript definition for [Cesium](https://cesiumjs.org/) v1.5x
 
 **个人使用。如果你要使用该文件，有错误的地方请Fork然后修改吧**
 
