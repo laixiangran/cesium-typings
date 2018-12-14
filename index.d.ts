@@ -3198,6 +3198,7 @@ declare module Cesium {
         model: ModelGraphics;
         orientation: any;
         path: PathGraphics;
+        plane: PlaneGraphics;
         point: PointGraphics;
         polygon: PolygonGraphics;
         polyline: PolylineGraphics;
@@ -3237,6 +3238,7 @@ declare module Cesium {
         label?: LabelGraphics | LabelGraphicsOptions;
         model?: ModelGraphics;
         path?: PathGraphics;
+        plane?: PlaneGraphics;
         point?: PointGraphics;
         polygon?: PolygonGraphics | PolygonGraphicsOptions;
         polyline?: PolylineGraphics | PolylineGraphicsOptions;
@@ -3591,6 +3593,39 @@ declare module Cesium {
         isDestroyed(): boolean;
 
         destroy(): void;
+    }
+
+    class PlaneGraphics {
+        readonly definitionChanged: Event;
+        plane: any;
+        dimensions: any;
+        show: any | boolean;
+        fill: any | boolean;
+        material?: MaterialProperty | Color;
+        outline: any | boolean;
+        outlineColor: any;
+        outlineWidth: any | number;
+        shadows: any;
+        distanceDisplayCondition: any;
+
+        constructor(options?: PlaneGraphicsOptions);
+
+        clone(result?: PlaneGraphics): PlaneGraphics;
+
+        merge(source: PlaneGraphics): void;
+    }
+
+    class PlaneGraphicsOptions {
+        plane?: any;
+        dimensions?: any;
+        show?: any | boolean;
+        fill?: any | boolean;
+        material?: MaterialProperty | Color;
+        outline?: any | boolean;
+        outlineColor: any;
+        outlineWidth?: any | number;
+        shadows?: any;
+        distanceDisplayCondition?: any;
     }
 
     class PointGraphics {
